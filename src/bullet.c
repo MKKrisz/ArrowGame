@@ -1,4 +1,5 @@
 #include "bullet.h"
+#define PI 3.1415926f
 
 Bullet* CreateBullet(Game* game, Arrow* arrow, BulletType type){
     Bullet* bullet = (Bullet*)malloc(sizeof(Bullet));
@@ -19,10 +20,13 @@ void UpdateBullet(Bullet* b, Game* game){
             break;
         case HEATSEEK:
             for(int i = 0; i<game->PlayerCount; i++){
+                if(b->Owner == &game->Players[i]) continue;
+                if(game->Players[i].Health <= 0) continue;
                 vec2 VArrow = vec2_AddV(game->Players[i].Position, vec2_NegV(b->Position));
                 float dist = vec2_get_Length(&VArrow);
 
-                b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(vec2_Normalize(&VArrow), game->BaseBulletspeed/dist));
+                b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(VArrow, game->BaseBulletspeed * PI/(dist*dist)));
+                b->Velocity = vec2_MulfV(vec2_Normalize(&b->Velocity), game->BaseBulletspeed);
             }
             b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
             break;
