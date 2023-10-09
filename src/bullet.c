@@ -15,10 +15,16 @@ void UpdateBullet(Bullet* b, Game* game){
             b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
             break;
 
-            case HITSCAN:
+        case HITSCAN:
             break;
-
         case HEATSEEK:
+            for(int i = 0; i<game->PlayerCount; i++){
+                vec2 VArrow = vec2_AddV(game->Players[i].Position, vec2_NegV(b->Position));
+                float dist = vec2_get_Length(&VArrow);
+
+                b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(vec2_Normalize(&VArrow), game->BaseBulletspeed/dist));
+            }
+            b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
             break;
     }
 }
