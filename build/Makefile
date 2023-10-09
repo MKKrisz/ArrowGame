@@ -465,6 +465,30 @@ src/particle.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ArrowGame.dir/build.make CMakeFiles/ArrowGame.dir/src/particle.c.s
 .PHONY : src/particle.c.s
 
+src/weapon.o: src/weapon.c.o
+.PHONY : src/weapon.o
+
+# target to build an object file
+src/weapon.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ArrowGame.dir/build.make CMakeFiles/ArrowGame.dir/src/weapon.c.o
+.PHONY : src/weapon.c.o
+
+src/weapon.i: src/weapon.c.i
+.PHONY : src/weapon.i
+
+# target to preprocess a source file
+src/weapon.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ArrowGame.dir/build.make CMakeFiles/ArrowGame.dir/src/weapon.c.i
+.PHONY : src/weapon.c.i
+
+src/weapon.s: src/weapon.c.s
+.PHONY : src/weapon.s
+
+# target to generate assembly for a file
+src/weapon.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ArrowGame.dir/build.make CMakeFiles/ArrowGame.dir/src/weapon.c.s
+.PHONY : src/weapon.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -516,6 +540,9 @@ help:
 	@echo "... src/particle.o"
 	@echo "... src/particle.i"
 	@echo "... src/particle.s"
+	@echo "... src/weapon.o"
+	@echo "... src/weapon.i"
+	@echo "... src/weapon.s"
 .PHONY : help
 
 

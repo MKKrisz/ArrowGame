@@ -4,6 +4,7 @@
 
 bool UpdateArrow(Arrow* arrow, Game* game){
     UpdateButtons(arrow->Config, arrow->Input);
+    UpdateWeapon(arrow->Weapon, game->CDelta);
     
     float speed_dec = (1.0f - (game->BaseFriction * game->CDelta));
 

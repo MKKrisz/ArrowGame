@@ -22,6 +22,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/math/vector.c" "CMakeFiles/ArrowGame.dir/src/math/vector.c.o" "gcc" "CMakeFiles/ArrowGame.dir/src/math/vector.c.o.d"
   "/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/menu/textrenderer.c" "CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o" "gcc" "CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o.d"
   "/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/particle.c" "CMakeFiles/ArrowGame.dir/src/particle.c.o" "gcc" "CMakeFiles/ArrowGame.dir/src/particle.c.o.d"
+  "/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/weapon.c" "CMakeFiles/ArrowGame.dir/src/weapon.c.o" "gcc" "CMakeFiles/ArrowGame.dir/src/weapon.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

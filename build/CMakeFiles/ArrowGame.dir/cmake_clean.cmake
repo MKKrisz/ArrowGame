@@ -29,6 +29,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o.d"
   "CMakeFiles/ArrowGame.dir/src/particle.c.o"
   "CMakeFiles/ArrowGame.dir/src/particle.c.o.d"
+  "CMakeFiles/ArrowGame.dir/src/weapon.c.o"
+  "CMakeFiles/ArrowGame.dir/src/weapon.c.o.d"
 )
 
 # Per-language clean rules from dependency scanning.
