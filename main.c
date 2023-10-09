@@ -40,7 +40,7 @@ int main(void) {
         .BaseAngular = PI*4.0f,
         .BaseHealth = 100.0f,
         .BaseFriction = 0.75f,
-        .BaseBulletspeed = 800.0f,
+        .BaseBulletspeed = 300.0f,
         .BaseFirerate = 0.5f,
         .BaseDamage = 5,
     };

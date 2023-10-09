@@ -68,7 +68,7 @@ void GameLoop(Game* game, Graphics* g){
             }
 
             if(get_ButtonState(game->Players[i].Input, SHOOT) > 0 && game->Players[i].FireTimer<0){
-                add_BulletElement_front(game->Bullets, CreateBulletElement(CreateBullet(game, &game->Players[i], PROJECTILE)));
+                add_BulletElement_front(game->Bullets, CreateBulletElement(CreateBullet(game, &game->Players[i], HEATSEEK)));
                 game->Players[i].Velocity = vec2_AddV(game->Players[i].Velocity, vec2_MakeAM(game->Players[i].Angle, game->BaseBulletspeed * -0.0001f * game->BaseDamage));
                 game->Players[i].FireTimer += game->BaseFirerate;
             }
