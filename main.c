@@ -51,6 +51,7 @@ int main(void) {
             20
             )
         };
+
     
     GameLoop(&game, &g);
 
