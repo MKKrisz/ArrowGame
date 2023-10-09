@@ -178,7 +178,7 @@ bool ProcessHits(Game* game, Bullet* b){
     for(int i = 0; i < game->PlayerCount; i++){
         if(game->Players[i].Health <= 0) continue;
         vec2 hitVec = GetHitVec(&game->Players[i], b, game->CDelta);
-        printf("%f %f\n", hitVec.x, hitVec.y);
+        //printf("%f %f\n", hitVec.x, hitVec.y);
         if(CheckHit(hitVec)){
             game->Players[i].Health -= game->BaseDamage;
             game->Players[i].Velocity = vec2_AddV(game->Players[i].Velocity, vec2_MulfV(b->Velocity, 0.0001f));
