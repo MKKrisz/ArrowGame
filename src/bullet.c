@@ -1,11 +1,11 @@
 #include "bullet.h"
 #define PI 3.1415926f
 
-Bullet* CreateBullet(Game* game, Arrow* arrow, BulletType type){
+Bullet* CreateBullet(Game* game, Arrow* arrow){
     Bullet* bullet = (Bullet*)malloc(sizeof(Bullet));
     bullet->Position = arrow->Position;
-    bullet->Velocity = vec2_MakeAM(arrow->Angle, game->BaseBulletspeed);
-    bullet->Type = type;
+    bullet->Velocity = vec2_MakeAM(arrow->Angle + RandomFR(-arrow->Weapon->Accuracy, arrow->Weapon->Accuracy), game->BaseWeapon->BulletSpeed); 
+    bullet->Type = (BulletType)arrow->Weapon->Type;
     bullet->Owner = arrow;
     return bullet;
 }
@@ -25,10 +25,12 @@ void UpdateBullet(Bullet* b, Game* game){
                 vec2 VArrow = vec2_AddV(game->Players[i].Position, vec2_NegV(b->Position));
                 float dist = vec2_get_Length(&VArrow);
 
-                b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(VArrow, game->BaseBulletspeed * PI/(dist*dist)));
-                b->Velocity = vec2_MulfV(vec2_Normalize(&b->Velocity), game->BaseBulletspeed);
+                b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(VArrow, game->BaseWeapon->BulletSpeed * PI/(dist*dist)));
+                b->Velocity = vec2_MulfV(vec2_Normalize(&b->Velocity), game->BaseWeapon->BulletSpeed);
             }
             b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
+            break;
+        default:
             break;
     }
 }

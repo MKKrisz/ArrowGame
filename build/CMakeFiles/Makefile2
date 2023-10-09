@@ -167,12 +167,12 @@ src/menu/clean:
 CMakeFiles/ArrowGame.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ArrowGame.dir/build.make CMakeFiles/ArrowGame.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ArrowGame.dir/build.make CMakeFiles/ArrowGame.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 "Built target ArrowGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 "Built target ArrowGame"
 .PHONY : CMakeFiles/ArrowGame.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ArrowGame.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ArrowGame.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles 0
 .PHONY : CMakeFiles/ArrowGame.dir/rule

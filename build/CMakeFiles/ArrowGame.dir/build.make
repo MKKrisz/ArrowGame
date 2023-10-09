@@ -153,10 +153,24 @@ CMakeFiles/ArrowGame.dir/src/bullet.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ArrowGame.dir/src/bullet.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/bullet.c -o CMakeFiles/ArrowGame.dir/src/bullet.c.s
 
+CMakeFiles/ArrowGame.dir/src/weapon.c.o: CMakeFiles/ArrowGame.dir/flags.make
+CMakeFiles/ArrowGame.dir/src/weapon.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/weapon.c
+CMakeFiles/ArrowGame.dir/src/weapon.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/ArrowGame.dir/src/weapon.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/weapon.c.o -MF CMakeFiles/ArrowGame.dir/src/weapon.c.o.d -o CMakeFiles/ArrowGame.dir/src/weapon.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/weapon.c
+
+CMakeFiles/ArrowGame.dir/src/weapon.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/ArrowGame.dir/src/weapon.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/weapon.c > CMakeFiles/ArrowGame.dir/src/weapon.c.i
+
+CMakeFiles/ArrowGame.dir/src/weapon.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ArrowGame.dir/src/weapon.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/weapon.c -o CMakeFiles/ArrowGame.dir/src/weapon.c.s
+
 CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o: CMakeFiles/ArrowGame.dir/flags.make
 CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/graphics/graphics.c
 CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o -MF CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o.d -o CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/graphics/graphics.c
 
 CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.i: cmake_force
@@ -170,7 +184,7 @@ CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.s: cmake_force
 CMakeFiles/ArrowGame.dir/src/control/input.c.o: CMakeFiles/ArrowGame.dir/flags.make
 CMakeFiles/ArrowGame.dir/src/control/input.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/control/input.c
 CMakeFiles/ArrowGame.dir/src/control/input.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/ArrowGame.dir/src/control/input.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/ArrowGame.dir/src/control/input.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/control/input.c.o -MF CMakeFiles/ArrowGame.dir/src/control/input.c.o.d -o CMakeFiles/ArrowGame.dir/src/control/input.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/control/input.c
 
 CMakeFiles/ArrowGame.dir/src/control/input.c.i: cmake_force
@@ -184,7 +198,7 @@ CMakeFiles/ArrowGame.dir/src/control/input.c.s: cmake_force
 CMakeFiles/ArrowGame.dir/src/control/random.c.o: CMakeFiles/ArrowGame.dir/flags.make
 CMakeFiles/ArrowGame.dir/src/control/random.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/control/random.c
 CMakeFiles/ArrowGame.dir/src/control/random.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/ArrowGame.dir/src/control/random.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/ArrowGame.dir/src/control/random.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/control/random.c.o -MF CMakeFiles/ArrowGame.dir/src/control/random.c.o.d -o CMakeFiles/ArrowGame.dir/src/control/random.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/control/random.c
 
 CMakeFiles/ArrowGame.dir/src/control/random.c.i: cmake_force
@@ -198,7 +212,7 @@ CMakeFiles/ArrowGame.dir/src/control/random.c.s: cmake_force
 CMakeFiles/ArrowGame.dir/src/math/vector.c.o: CMakeFiles/ArrowGame.dir/flags.make
 CMakeFiles/ArrowGame.dir/src/math/vector.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/math/vector.c
 CMakeFiles/ArrowGame.dir/src/math/vector.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/ArrowGame.dir/src/math/vector.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/ArrowGame.dir/src/math/vector.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/math/vector.c.o -MF CMakeFiles/ArrowGame.dir/src/math/vector.c.o.d -o CMakeFiles/ArrowGame.dir/src/math/vector.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/math/vector.c
 
 CMakeFiles/ArrowGame.dir/src/math/vector.c.i: cmake_force
@@ -212,7 +226,7 @@ CMakeFiles/ArrowGame.dir/src/math/vector.c.s: cmake_force
 CMakeFiles/ArrowGame.dir/src/math/lerp.c.o: CMakeFiles/ArrowGame.dir/flags.make
 CMakeFiles/ArrowGame.dir/src/math/lerp.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/math/lerp.c
 CMakeFiles/ArrowGame.dir/src/math/lerp.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/ArrowGame.dir/src/math/lerp.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/ArrowGame.dir/src/math/lerp.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/math/lerp.c.o -MF CMakeFiles/ArrowGame.dir/src/math/lerp.c.o.d -o CMakeFiles/ArrowGame.dir/src/math/lerp.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/math/lerp.c
 
 CMakeFiles/ArrowGame.dir/src/math/lerp.c.i: cmake_force
@@ -226,7 +240,7 @@ CMakeFiles/ArrowGame.dir/src/math/lerp.c.s: cmake_force
 CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.o: CMakeFiles/ArrowGame.dir/flags.make
 CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/dataStructures/ParticlePasta.c
 CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.o -MF CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.o.d -o CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/dataStructures/ParticlePasta.c
 
 CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.i: cmake_force
@@ -240,7 +254,7 @@ CMakeFiles/ArrowGame.dir/src/dataStructures/ParticlePasta.c.s: cmake_force
 CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.o: CMakeFiles/ArrowGame.dir/flags.make
 CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/dataStructures/BulletPasta.c
 CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.o -MF CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.o.d -o CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/dataStructures/BulletPasta.c
 
 CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.i: cmake_force
@@ -254,7 +268,7 @@ CMakeFiles/ArrowGame.dir/src/dataStructures/BulletPasta.c.s: cmake_force
 CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o: CMakeFiles/ArrowGame.dir/flags.make
 CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o: /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/menu/textrenderer.c
 CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o: CMakeFiles/ArrowGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o -MF CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o.d -o CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.o -c /home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/src/menu/textrenderer.c
 
 CMakeFiles/ArrowGame.dir/src/menu/textrenderer.c.i: cmake_force
@@ -273,6 +287,7 @@ ArrowGame_OBJECTS = \
 "CMakeFiles/ArrowGame.dir/src/particle.c.o" \
 "CMakeFiles/ArrowGame.dir/src/arrow.c.o" \
 "CMakeFiles/ArrowGame.dir/src/bullet.c.o" \
+"CMakeFiles/ArrowGame.dir/src/weapon.c.o" \
 "CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o" \
 "CMakeFiles/ArrowGame.dir/src/control/input.c.o" \
 "CMakeFiles/ArrowGame.dir/src/control/random.c.o" \
@@ -291,6 +306,7 @@ ArrowGame: CMakeFiles/ArrowGame.dir/src/game.c.o
 ArrowGame: CMakeFiles/ArrowGame.dir/src/particle.c.o
 ArrowGame: CMakeFiles/ArrowGame.dir/src/arrow.c.o
 ArrowGame: CMakeFiles/ArrowGame.dir/src/bullet.c.o
+ArrowGame: CMakeFiles/ArrowGame.dir/src/weapon.c.o
 ArrowGame: CMakeFiles/ArrowGame.dir/src/graphics/graphics.c.o
 ArrowGame: CMakeFiles/ArrowGame.dir/src/control/input.c.o
 ArrowGame: CMakeFiles/ArrowGame.dir/src/control/random.c.o
@@ -304,7 +320,7 @@ ArrowGame: /usr/lib/libSDL2-2.0.so.0.2800.4
 ArrowGame: /usr/lib/libSDL2_image.so
 ArrowGame: /usr/lib/libSDL2_ttf.so
 ArrowGame: CMakeFiles/ArrowGame.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking C executable ArrowGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/krisz/Dokumentumok/Repos/c_uni/ArrowGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking C executable ArrowGame"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ArrowGame.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

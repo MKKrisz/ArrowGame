@@ -34,16 +34,23 @@ int main(void) {
     //}
     //END OF TEST
 
+    
+
     Game game = (Game){
         .PlayerCount = 2,
         .BaseAccel = 300.0f,
         .BaseAngular = PI*4.0f,
         .BaseHealth = 100.0f,
         .BaseFriction = 0.75f,
-        .BaseBulletspeed = 800.0f,
-        .BaseFirerate = 0.5f,
-        .BaseDamage = 5,
-    };
+        .BaseWeapon = CreateWeapon(
+            SHOTTYPE_RANDOM,
+            5.0f,
+            RandomFR(100.0f, 1000.0f),
+            0.05f,
+            0.4f,
+            20
+            )
+        };
     
     GameLoop(&game, &g);
 

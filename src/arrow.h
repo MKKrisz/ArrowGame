@@ -4,6 +4,7 @@
 #include "control/input.h"
 #include "game.h"
 #include "bullet.h"
+#include "weapon.h"
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
@@ -12,6 +13,7 @@
 //1 pixel in viewport texture = 1 cm btw....
 
 struct Game;
+struct Weapon;
 
 // A játékos állapotának tárolója
 typedef struct Arrow {
@@ -37,8 +39,8 @@ typedef struct Arrow {
     SDL_Color Color;
 
     float Health;
-
-    float FireTimer;
+    struct Weapon* Weapon;
+    
     float ThrusterTimerTM;
 } Arrow;
 

@@ -5,6 +5,7 @@
 #include "particle.h"
 #include "bullet.h"
 #include "arrow.h"
+#include "weapon.h"
 #include "graphics/graphics.h"
 #include "control/input.h"
 #include "control/random.h"
@@ -12,6 +13,7 @@
 struct BulletPasta;
 struct Bullet;
 struct Arrow;
+struct Weapon;
 
 // Egy játék konfigurációjának és fontosabb belső változóinak tárolója.
 typedef struct Game {
@@ -20,9 +22,8 @@ typedef struct Game {
     float BaseAngular;
     float BaseFriction;
     float BaseHealth;
-    float BaseBulletspeed;
-    float BaseFirerate;
-    float BaseDamage;
+
+    struct Weapon* BaseWeapon;
 
     struct Arrow* Players;
 
