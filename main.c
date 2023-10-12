@@ -34,7 +34,7 @@ int main(void) {
     //}
     //END OF TEST
 
-    
+    float damage = RandomFR(1, 20);
 
     Game game = (Game){
         .PlayerCount = 2,
@@ -43,9 +43,9 @@ int main(void) {
         .BaseHealth = 100.0f,
         .BaseFriction = 0.75f,
         .BaseWeapon = CreateWeapon(
-            SHOTTYPE_RANDOM,
-            5.0f,
-            RandomFR(100.0f, 1000.0f),
+            (ShotType)HEATSEEK,
+            damage,
+            damage,
             0.05f,
             0.4f,
             20

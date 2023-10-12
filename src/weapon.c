@@ -12,9 +12,25 @@ Weapon* CreateWeapon(ShotType type, float damage, float speed, float accuracy, f
     op->Accuracy = accuracy;
     op->FireRate = frate;
     op->MagazineSize = magsize;
+    op->Magazine = 0;
+    op->FireTimer = 0; 
 
     return op;
 }
+
+Weapon* CopyWeapon(Weapon* base){
+    Weapon* op = malloc(sizeof(Weapon));
+    op->Type = base->Type;
+    op->Damage = base->Damage;
+    op->BulletSpeed = base->BulletSpeed;
+    op->Accuracy = base->Accuracy;
+    op->FireRate = base->FireRate;
+    op->MagazineSize = base->MagazineSize;
+    op->Magazine = base->Magazine;
+    op->FireTimer = base->FireTimer;
+    return op;
+}
+
 void DeallocWeapon(Weapon* w) { free(w); }
 
 bool IsEmpty(Weapon* w){

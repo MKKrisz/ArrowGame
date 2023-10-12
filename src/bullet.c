@@ -11,28 +11,18 @@ Bullet* CreateBullet(Game* game, Arrow* arrow){
 }
 
 void UpdateBullet(Bullet* b, Game* game){
-    switch(b->Type){
-        case PROJECTILE:
-            b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
-            break;
+    if(b->Type == HEATSEEK){        
+        for(int i = 0; i<game->PlayerCount; i++){
+            if(b->Owner == &game->Players[i]) continue;
+            if(game->Players[i].Health <= 0) continue;
+            vec2 VArrow = vec2_AddV(game->Players[i].Position, vec2_NegV(b->Position));
+            float dist = vec2_get_Length(&VArrow);
 
-        case HITSCAN:
-            break;
-        case HEATSEEK:
-            for(int i = 0; i<game->PlayerCount; i++){
-                if(b->Owner == &game->Players[i]) continue;
-                if(game->Players[i].Health <= 0) continue;
-                vec2 VArrow = vec2_AddV(game->Players[i].Position, vec2_NegV(b->Position));
-                float dist = vec2_get_Length(&VArrow);
-
-                b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(VArrow, game->BaseWeapon->BulletSpeed * PI/(dist*dist)));
-                b->Velocity = vec2_MulfV(vec2_Normalize(&b->Velocity), game->BaseWeapon->BulletSpeed);
-            }
-            b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
-            break;
-        default:
-            break;
+            b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(VArrow, game->BaseWeapon->BulletSpeed *PI/(dist*dist)));
+            b->Velocity = vec2_MulfV(vec2_Normalize(&b->Velocity), game->BaseWeapon->BulletSpeed);
+        }
     }
+    b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
 }
 
 
@@ -75,7 +65,18 @@ bool CheckBounds(Bullet* bullet, Graphics* g){
 
 void DrawBullet(Bullet* b, Graphics* g, float delta){
     SDL_SetRenderDrawColor(g->Renderer, BULLET_COLOR);
-    SDL_RenderDrawLineF(g->Renderer, b->Position.x, b->Position.y, b->Position.x + (b->Velocity.x*delta), b->Position.y + (b->Velocity.y*delta));
+    if(b->Type == HITSCAN){
+        float t = 0;
+        float ang = fmod(vec2_get_Angle(&b->Velocity), 2*PI);
+        if(ang <= PI){
+            t = (g->viewport_height - b->Position.y )/ b->Velocity.y;
+        }
+        if(ang > PI){
+            t =  (b->Position.y )/ b->Velocity.y;
+        }
+        SDL_RenderDrawLine(g->Renderer, b->Owner->Position.x, b->Owner->Position.y, b->Owner->Position.x + (b->Velocity.x*t), b->Owner->Position.y + (b->Velocity.y*t));
+    }
+    else SDL_RenderDrawLineF(g->Renderer, b->Position.x, b->Position.y, b->Position.x + (b->Velocity.x*delta), b->Position.y + (b->Velocity.y*delta));
 }
 
 

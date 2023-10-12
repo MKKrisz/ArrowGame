@@ -118,7 +118,7 @@ void InitArrows(Game* game, Graphics* g){
                 .Accel = game->BaseAccel,
                 .AngularAccel = game->BaseAngular,
                 .Health = game->BaseHealth,
-                .Weapon = game->BaseWeapon,
+                .Weapon = CopyWeapon(game->BaseWeapon),
                 //.FireTimer = game->BaseFirerate,
                 .ThrusterTimerTM = THRUSTER_PARTICLE_SPAWNTIME,
                 .Color = RandomColor()
@@ -220,7 +220,7 @@ void ManageBulletPasta(Game* game, Graphics* g){
 
     if(p == NULL){return;}
     while(p != NULL && p == game->Bullets->First){
-        if(ProcessHits(game, p->Sauce) || CheckBounds(p->Sauce, g)){
+        if(ProcessHits(game, p->Sauce) || CheckBounds(p->Sauce, g) ){
             remove_BulletElement_front(game->Bullets);
             p = game->Bullets->First;
         }
@@ -249,6 +249,7 @@ void Deallocate(Game* game){
     for(int i = 0; i<game->PlayerCount; i++){
         free(game->Players[i].Config);
         free(game->Players[i].Input);
+        free(game->Players[i].Weapon);
     }
     free(game->Players);
     ParticleElement* p = game->Particles->First;

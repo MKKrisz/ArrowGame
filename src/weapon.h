@@ -22,6 +22,7 @@ typedef struct Weapon{
 } Weapon;
 
 Weapon* CreateWeapon(ShotType type, float damage, float speed, float accuracy, float frate, int magsize);
+Weapon* CopyWeapon(Weapon* base);
 void DeallocWeapon(Weapon* w);
 
 bool IsEmpty(Weapon* w);
