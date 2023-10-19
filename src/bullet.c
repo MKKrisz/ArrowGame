@@ -1,4 +1,6 @@
 #include "bullet.h"
+#include "../debugmalloc.h"
+
 #define PI 3.1415926f
 
 Bullet* CreateBullet(Game* game, Arrow* arrow){

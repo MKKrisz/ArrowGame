@@ -1,3 +1,4 @@
+#include "../debugmalloc.h"
 #include "weapon.h"
 #include "arrow.h"
 #include "bullet.h"

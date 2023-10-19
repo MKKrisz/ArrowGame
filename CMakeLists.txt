@@ -8,7 +8,7 @@ find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS})
 
-add_executable(${PROJECT_NAME} main.c src/graphics/color.h src/graphics/color.c)
+add_executable(${PROJECT_NAME} main.c debugmalloc.h)
 add_subdirectory(src)
 target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf)
 target_link_libraries(${PROJECT_NAME} m)

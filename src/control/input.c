@@ -1,5 +1,7 @@
-#include "input.h"
 #include <stdio.h>
+
+#include "../../debugmalloc.h"
+#include "input.h"
 
 int usedJoysticks = 0;
 
@@ -79,6 +81,7 @@ InputConfig* LoadInputConfig(const char* path){
         cfg->Controller = SDL_GameControllerOpen(usedJoysticks);
         usedJoysticks++;
     }
+    else if(usesController){cfg->Controller = NULL;}
     return cfg;
 }
 

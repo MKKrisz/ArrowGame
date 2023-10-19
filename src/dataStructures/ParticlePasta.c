@@ -1,17 +1,22 @@
 #include "ParticlePasta.h"
+#include "../../debugmalloc.h"
 
 ParticlePasta new_ParticlePasta() { 
     return (ParticlePasta) {.First = NULL};
 } 
     
 ParticleElement* new_ParticleElement(Particle* data) { 
-    ParticleElement* p = (ParticleElement*)malloc(sizeof(ParticleElement)); 
+    ParticleElement* p = malloc(sizeof(ParticleElement));
     p->Sauce = data;
+    p->Next = NULL;
     return p; 
 }
 
 void add_ParticleElement_front(ParticlePasta *pasta, ParticleElement *element){
-    if(pasta->First == NULL) { pasta->First = element; return;}
+    if(pasta->First == NULL) {
+        pasta->First = element;
+        return;
+    }
     element->Next = pasta->First;
     pasta->First = element;
 }

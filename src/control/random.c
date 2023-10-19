@@ -1,4 +1,5 @@
 #include "random.h"
+#include "../../debugmalloc.h"
 
 void init_Random(){
     srand(time(NULL));

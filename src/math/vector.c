@@ -1,5 +1,7 @@
-#include "vector.h"
 #include <math.h>
+
+#include "../../debugmalloc.h"
+#include "vector.h"
 
 #define PI 3.1415926f
 

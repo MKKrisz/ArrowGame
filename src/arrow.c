@@ -1,4 +1,5 @@
 #include "arrow.h"
+#include "../debugmalloc.h"
 
 #define PI 3.1415926f
 

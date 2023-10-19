@@ -1,5 +1,6 @@
 #include "graphics.h"
 #include <SDL2/SDL.h>
+#include "../../debugmalloc.h"
 
 Graphics CreateGraphics(const char* wName, int width, int height, float scaling){
     SDL_Init(SDL_INIT_EVERYTHING);

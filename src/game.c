@@ -1,12 +1,14 @@
+#include <stdbool.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+#include "../debugmalloc.h"
 #include "game.h"
 #include "bullet.h"
 #include "dataStructures/BulletPasta.h"
 #include "control/input.h"
 #include "graphics/color.h"
 #include "math/vector.h"
-#include <stdbool.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 #define PI 3.1415926f
 #define PARTICLE_BASE_LIFE 2.0f
@@ -80,7 +82,7 @@ void GameLoop(Game* game, Graphics* g){
                 if(CollideArrow(p1, p2)){
                     int cParticles = RandomR(10, 30);
                     for(int z = 0; z < cParticles; z++){
-                        add_ParticleElement_front(game->Particles, new_ParticleElement(CreateParticle(
+                        add_ParticleElement_front(game->Particles, new_ParticleElement( CreateParticle(
                             vec2_MulfV(vec2_AddV(p1->Position, p2->Position), 0.5f),                //collision point
                             RandomVec2A((vec2_get_Length(&p1->Velocity) + vec2_get_Length(&p2->Velocity))/2 * RandomFR(0.25f, 1.f)),        //Average Velocity of the two
                             PARTICLE_BASE_LIFE + RandomFR(-1.0f, 1.0f),
@@ -189,7 +191,7 @@ bool ProcessHits(Game* game, Bullet* b){
 
             int cParticles = RandomR(1, 8);
             for(int z = 0; z < cParticles; z++){
-                add_ParticleElement_front(game->Particles, new_ParticleElement(CreateParticle(
+                add_ParticleElement_front(game->Particles, new_ParticleElement( CreateParticle(
                     hitVec,
                     vec2_AddV(RandomVec2A(w->BulletSpeed * 0.01f), vec2_AddV(b->Position, vec2_NegV(p->Position))),
                     PARTICLE_BASE_LIFE + RandomFR(-1.0f, 1.0f),
@@ -198,9 +200,9 @@ bool ProcessHits(Game* game, Bullet* b){
             }
 
             if(p->Health <= 0){
-                int cParticles = RandomR(100, 200);
-                for(int z = 0; z < cParticles; z++){
-                    add_ParticleElement_front(game->Particles, new_ParticleElement(CreateParticle(
+                int cdParticles = RandomR(100, 200);
+                for(int z = 0; z < cdParticles; z++){
+                    add_ParticleElement_front(game->Particles, new_ParticleElement( CreateParticle(
                             p->Position,
                             RandomVec2A(10),
                             PARTICLE_BASE_LIFE + RandomFR(-1.0f, 1.0f),

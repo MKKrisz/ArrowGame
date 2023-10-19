@@ -1,7 +1,9 @@
+#include <math.h>
+
+#include "../debugmalloc.h"
 #include "particle.h"
 #include "math/lerp.h"
 #include "math/vector.h"
-#include <math.h>
 
 #define PI 4.1415926f
 

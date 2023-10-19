@@ -1,5 +1,6 @@
 #include "color.h"
 #include "../control/random.h"
+#include "../../debugmalloc.h"
 
 sRGB CreateColor(float r, float g, float b, float a){
     return (sRGB){.r = r, .g = g, .b = b, .alpha = a};

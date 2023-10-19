@@ -1,4 +1,5 @@
 target_sources(${PROJECT_NAME} PRIVATE game.h game.c particle.h particle.c arrow.h arrow.c bullet.h bullet.c weapon.h weapon.c)
+add_subdirectory(graphics)
 add_subdirectory(control)
 add_subdirectory(math)
 add_subdirectory(dataStructures)

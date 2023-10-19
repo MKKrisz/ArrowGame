@@ -2,9 +2,9 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "src/game.h"
 
-//DELETE AFTER TESTING
+#include "debugmalloc.h"
+#include "src/game.h"
 #include "src/graphics/graphics.h"
 
 
