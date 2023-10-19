@@ -31,30 +31,30 @@ OKLab ToOKLab(sRGB c)
 }
 sRGB TosRGB(OKLab c)
 {
-    float l_ = c.L + 0.3963377774f * c.a + 0.2158037573f * c.b;
-    float m_ = c.L - 0.1055613458f * c.a - 0.0638541728f * c.b;
-    float s_ = c.L - 0.0894841775f * c.a - 1.2914855480f * c.b;
+    float l_ = c.L + (0.3963377774 * c.a) + (0.2158037573 * c.b);
+    float m_ = c.L - (0.1055613458 * c.a) - (0.0638541728 * c.b);
+    float s_ = c.L - (0.0894841775 * c.a) - (1.2914855480 * c.b);
 
     float l = l_*l_*l_;
     float m = m_*m_*m_;
     float s = s_*s_*s_;
 
     return (sRGB){
-            .r = +4.0767416621f * l - 3.3077115913f * m + 0.2309699292f * s,
-            .g = -1.2684380046f * l + 2.6097574011f * m - 0.3413193965f * s,
-            .b = -0.0041960863f * l - 0.7034186147f * m + 1.7076147010f * s,
+            .r = +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+            .g = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+            .b = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
     };
 }
 
 OKLab* GenerateMonochromePalette(int count){
     OKLab*  output = malloc(sizeof(OKLab) * count);
-    float baseLuminance = RandomFR(0.0f, 0.2f);
-    float baseA = RandomFR(-1.0f, 1.0f);
-    float baseB = RandomFR(-1.0f, 1.0f);
-    float increment = RandomFR(0.0f, 0.8f)/(float)count;
+    float baseLuminance = RandomFR(0.0f, 1.0f) / count;
+    float baseA = RandomFR(-0.4f, 0.4f);
+    float baseB = RandomFR(-0.4f, 0.4f);
+    float increment = baseLuminance;
 
     for(int i = 0; i<count; i++){
-        output[i] = (OKLab){.L = baseLuminance + i*increment, .a = baseA, .b = baseB, .alpha = 255};
+        output[i] = (OKLab){.L = baseLuminance + i*increment, .a = baseA, .b = baseB, .alpha = 1};
     }
     return output;
 }

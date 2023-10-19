@@ -6,7 +6,6 @@
 
 //DELETE AFTER TESTING
 #include "src/graphics/graphics.h"
-#include "src/menu/textrenderer.h"
 
 
 #define WIDTH 1920
@@ -15,24 +14,16 @@
 
 #define PI 3.1415926
 
+
+// Sets up the game configuration through an interactive menu, then starts the game.
 int main(void) {
     init_Random();
-    InitText();
     Graphics g = CreateGraphics("fos", WIDTH, HEIGHT, SCALE);
     IMG_Init(IMG_INIT_PNG);
 
 
 
     SDL_SetRenderDrawBlendMode(g.Renderer, SDL_BLENDMODE_BLEND);
-
-    //PURELY TESTING
-    //Text* tesxt = CreateText("The quick brown fox jumped over me", 20);
-    //while(true){
-    //    BeginDraw(&g);
-    //    DrawText(tesxt, &g);
-    //    EndDraw(&g);
-    //}
-    //END OF TEST
 
     float damage = RandomFR(1, 20);
 
@@ -45,7 +36,7 @@ int main(void) {
         .BaseWeapon = CreateWeapon(
             (ShotType)HEATSEEK,
             damage,
-            damage,
+            500.0f,
             0.05f,
             0.4f,
             20
