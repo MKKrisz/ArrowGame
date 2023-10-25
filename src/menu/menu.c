@@ -19,19 +19,21 @@ Menu* LoadMenu(const char* path, Game* g, Graphics* graph){
     return op;
 }
 
-void UpdateMenu(Menu* m, float delta){
+uint UpdateMenu(uint delta, void* menu){
+    Menu* m = (Menu*)menu;
     SDL_Event event;
-    while(SDL_PollEvent(&event) != 0){
+    while(SDL_PollEvent(&event)){
         if(event.type == SDL_QUIT){
             m->Running = false;
+            return 0;
         }
         if(event.type == SDL_KEYUP){
             SDL_KeyboardEvent kevent = event.key;
             switch(kevent.keysym.scancode){
                 case SDL_SCANCODE_UP:
-                    if(m->SelectedEntry > 0){
+                    if(m->SelectedEntry > 1){
                         m->SelectedEntry--;
-                        while(m->Entries[m->SelectedEntry].Type == MENU_TEXTBOX && m->SelectedEntry > 0)
+                        while(m->Entries[m->SelectedEntry].Type == MENU_TEXTBOX && m->SelectedEntry > 1)
                             m->SelectedEntry--;
                     }
                     break;
@@ -64,6 +66,7 @@ void UpdateMenu(Menu* m, float delta){
         }
     }
     if(m->CustomUpdate != NULL) (*m->CustomUpdate)(m);
+    return 1;
 }
 
 void DrawMenu(Menu* m, Graphics* g){
@@ -77,10 +80,11 @@ void DrawMenu(Menu* m, Graphics* g){
 }
 
 void UpdateLoop(Menu* m, Graphics* g){
+    SDL_TimerID menu = SDL_AddTimer(50, UpdateMenu, m);
     while(m->Running){
-        UpdateMenu(m, 0.1);
         DrawMenu(m, g);
     }
+    SDL_RemoveTimer(menu);
 }
 
 void DeallocMenu(Menu* m){

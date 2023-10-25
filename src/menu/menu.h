@@ -23,7 +23,7 @@ typedef struct Menu{
 } Menu;
 
 Menu* LoadMenu(const char* path, Game* g, Graphics* graph);
-void UpdateMenu(Menu* m, float delta);
+uint UpdateMenu(uint delta, void* menu);
 void UpdateLoop(Menu* m, Graphics* g);
 void DrawMenu(Menu* m, Graphics* g);
 void DeallocMenu(Menu* m);

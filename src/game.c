@@ -106,8 +106,6 @@ void GameLoop(Game* game, Graphics* g){
 
     InitArrows(game, g);
     
-    SDL_Color* Palette = GeneratePaletteM(8);
-    
     game->CDelta = 0.1f;
 
     GGTuple params = {game, g};
@@ -128,7 +126,6 @@ void GameLoop(Game* game, Graphics* g){
 
     SDL_RemoveTimer(loopTimer);
     Deallocate(game);
-    free(Palette);
 }
 
 
@@ -173,7 +170,7 @@ void BounceEdge(Arrow* arrow, Graphics* g){
     }
 }
 
-void UpdateParticlePasta(Game* game){
+void UpdateParticles(Game* game){
     ParticleElement* p = game->Particles->First;
     ParticleElement* op;
 
@@ -249,7 +246,7 @@ bool ProcessHits(Game* game, Bullet* b){
     return false; 
 }
 
-void UpdateBulletPasta(Game* game, Graphics* g){
+void UpdateBullets(Game* game, Graphics* g){
     BulletElement* p = game->Bullets->First;
     BulletElement* oldp;
 

@@ -76,7 +76,7 @@ void StartRandomGame(Menu* menu){
                 RandomFR(1, 70),
                 RandomFR(20, 1000),
                 RandomFR(0, 0.2f),
-                RandomFR(0, 5),
+                RandomF(),
                 RandomR(1, 50)
                 )
     };
@@ -87,9 +87,7 @@ void StartCustomGame(Menu* menu){
     return;
     //TODO: Implement GameConfig.so
     Menu* cfg = LoadMenu("Menus/GameConfig.so", NULL, graph);
-    while(cfg->Running){
-        UpdateMenu(cfg, 0.1);
-    }
+    UpdateLoop(cfg, graph);
     game = cfg->GetGame();
     DeallocMenu(cfg);
     if(game.PlayerCount > 0) menu->Running = false;
