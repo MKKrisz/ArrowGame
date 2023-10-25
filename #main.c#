@@ -30,10 +30,29 @@ int main(void) {
     Menu* main = LoadMenu("Menus/libMainMenu.so", &game, &g);
     UpdateLoop(main, &g);
     if(main->GetGame != NULL) game = (*main->GetGame)();
-    
-    GameLoop(&game, &g);
 
-    DeallocMenu(main);
+    /*float damage = RandomFR(1, 20);
+
+    Game game = (Game){
+        .PlayerCount = 2,
+        .BaseAccel = 300.0f,
+        .BaseAngular = PI*4.0f,
+        .BaseHealth = 100.0f,
+        .BaseFriction = 0.75f,
+        .BaseWeapon = CreateWeapon(
+            (ShotType)HEATSEEK,
+            damage,
+            500.0f,
+            0.05f,
+            0.4f,
+            20
+            )
+        };*/
+
+    
+    if(game.PlayerCount > 0)GameLoop(&game, &g);
+
+    DEALLOCMENU(main);
 
     DestroyGraphics(&g);
     IMG_Quit();

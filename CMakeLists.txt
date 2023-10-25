@@ -10,6 +10,9 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_TTF_I
 
 add_executable(${PROJECT_NAME} main.c debugmalloc.h)
 add_subdirectory(src)
+
+add_subdirectory(Menus)
+
 target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf)
 target_link_libraries(${PROJECT_NAME} m)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror)

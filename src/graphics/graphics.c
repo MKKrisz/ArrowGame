@@ -1,5 +1,6 @@
 #include "graphics.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "../../debugmalloc.h"
 
 Graphics CreateGraphics(const char* wName, int width, int height, float scaling){
@@ -7,6 +8,9 @@ Graphics CreateGraphics(const char* wName, int width, int height, float scaling)
     Graphics g;
     g.Window = SDL_CreateWindow(wName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
     g.Renderer = SDL_CreateRenderer(g.Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
+ 
+    g.Arrow = IMG_LoadTexture(g.Renderer, "Assets/Arrow.png");
+
     g.window_width = width;
     g.window_height = height;
 
@@ -36,6 +40,8 @@ void RescaleViewport(Graphics* g, float scale){
 
 void BeginDraw(Graphics* g){
     SDL_SetRenderTarget(g->Renderer, g->Viewport);
+    SDL_SetRenderDrawColor(g->Renderer, 0, 0, 0, 0);
+    SDL_RenderClear(g->Renderer);
 }
 
 void EndDraw(Graphics* g){

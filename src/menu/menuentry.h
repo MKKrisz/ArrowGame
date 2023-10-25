@@ -1,16 +1,38 @@
 #pragma once
 
-#include "menuelements.h"
+#include <SDL2/SDL.h>
 
-//Trying to do something like inheritance in c
+#include "menuelements.h"
+#include "menu.h"
+
+// Trying to do something like inheritance in c
+
+struct Textbox;
+struct Button;
+struct Slider;
+
+struct Menu;
+
 
 typedef enum MEntry_t {
-    TEXTBOX = 0,
+    MENU_TEXTBOX = 0,
+    MENU_BUTTON = 1,
+    MENU_SLIDER = 2
 } MEntry_t;
 
 typedef struct MenuEntry{
-    MEntry_t type;
+    MEntry_t Type;
+    SDL_Rect Backdrop;
     union{
-        Textbox* textbox;
+        struct Textbox* Textbox;
+        struct Button* Button;
+        struct Slider* Slider;
     };
 } MenuEntry;
+
+//This object does not have an allocator
+
+void DrawMenuEntry(MenuEntry* entry, Graphics* g, bool selected);
+void HandleEntryInteract(struct Menu* menu, MenuEntry* entry, float dsliderf);
+
+void DeallocateMenuEntry(MenuEntry* e);

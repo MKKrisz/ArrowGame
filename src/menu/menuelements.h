@@ -2,9 +2,12 @@
 
 #include <SDL2/SDL.h>
 #include <stdbool.h>
+
 #include "../graphics/graphics.h"
 #include "textrenderer.h"
+#include "menu.h"
 
+struct Menu;
 
 //Kinda looks like: Blahblahblah
 typedef struct Textbox {
@@ -19,25 +22,23 @@ void DestroyTextbox(Textbox* t);
 //Looks just like the textbox, except selectable
 typedef struct Button{
     Text* Text;
-    char* NextMenuPath;
+    void (*Interact)(struct Menu* menu);
 } Button;
 
-Button* CreateButton(Text* t, char* menupath);
+Button* CreateButton(Text* t, void (*interact)(struct Menu* menu));
 void DrawButton(Button* b, Graphics* g, bool selected);
 void DestroyButton(Button* b);
 
 //Looks like:  Blah        50 -----o-----
 typedef struct Slider{
     Text* Text;
-    float* ModifiedValue;
-    float Min;
-    float Max;
-    float Default;
+    void (*Modify)(struct Menu* menu, float t);
+    float Value;
     //hack
-    struct Text* Current;
+    struct Text* ValueText;
 } Slider;
 
-Slider* CreateSlider(Text* title, float min, float max, float def, float* modValue);
+Slider* CreateSlider(Text* title, float def, void (*interact)(struct Menu* menu, float t));
 void DrawSlider(Slider* s, Graphics* g, bool selected);
 void DestroySlider(Slider* s);
 

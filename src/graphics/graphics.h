@@ -10,6 +10,8 @@ typedef struct Graphics {
     SDL_Renderer* Renderer;
     SDL_Texture* Viewport;
 
+    SDL_Texture* Arrow;
+
     int window_width;
     int window_height;
 

@@ -1,5 +1,6 @@
 #include "menuelements.h"
 #include "textrenderer.h"
+#include "../../debugmalloc.h"
 
 Textbox* CreateTextbox(Text* t){
     Textbox* op = malloc(sizeof(Textbox));
@@ -16,37 +17,50 @@ void DestroyTextbox(Textbox* t){
     free(t);
 }
 
-Button* CreateButton(Text* t, char* menupath){
+Button* CreateButton(Text* t, void (*interact)(struct Menu* menu)){
     Button* op = malloc(sizeof(Button));
     op->Text = t;
-    op->NextMenuPath = menupath;
+    op->Interact = interact;
     return op;
 }
 
 void DrawButton(Button* b, Graphics* g, bool selected){
     if(selected){
-        SetTextColor(b->Text, (SDL_Color){0, 0, 0, 0});
-        SDL_RenderFillRect(g->Renderer, &b->Text->DrawRect);
-
+        SetTextColor(b->Text, (SDL_Color){0, 0, 0, 255});
     }
-    else SetTextColor(b->Text, BASE_FONT_COLOR);
+    else 
+        SetTextColor(b->Text, BASE_FONT_COLOR);
+    DrawText(b->Text, g);
 }
 
-void DesstroyButton(Button* b){
+void DestroyButton(Button* b){
     DestroyText(b->Text);
     free(b);
 }
 
-Slider* CreateSlider(Text* title, float min, float max, float def, float* modValue){
+Slider* CreateSlider(Text* title, float def, void (*interact)(struct Menu* menu, float t)){
     Slider* op = malloc(sizeof(Slider));
     op->Text = title;
-    op->Min = min;
-    op->Max = max;
-    op->Default = def;
-    op->ModifiedValue = modValue;
+    op->Value = def;
+    op->Modify = interact;
     return op;
 }
 
 void DrawSlider(Slider* s, Graphics* g, bool selected){
-    
+    if(selected){
+        SetTextColor(s->Text, (SDL_Color){0, 0, 0, 0});
+        SetTextColor(s->ValueText, (SDL_Color){0, 0, 0, 0});
+    }
+    else { 
+        SetTextColor(s->Text, BASE_FONT_COLOR);
+        SetTextColor(s->ValueText, BASE_FONT_COLOR);
+    }
+    DrawText(s->Text, g);
+    DrawText(s->ValueText, g);
+}
+
+void DestroySlider(Slider* s){
+    DestroyText(s->Text);
+    DestroyText(s->ValueText);
+    free(s);
 }
