@@ -117,9 +117,11 @@ void GameLoop(Game* game, Graphics* g){
         DrawBullets(game->Bullets->First, g, game->CDelta);
         for(int i = 0; i<game->PlayerCount; i++){
             Arrow* p1 = &game->Players[i];
-            SDL_SetTextureColorMod(g->Arrow, p1->Color.r, p1->Color.g, p1->Color.b);
-            SDL_FRect playerRect = get_ArrowRect(p1);
-            SDL_RenderCopyExF(g->Renderer, g->Arrow, NULL, &playerRect, p1->Angle*180/PI + 90, NULL, SDL_FLIP_NONE);
+            if(p1->Health>0){
+                SDL_SetTextureColorMod(g->Arrow, p1->Color.r, p1->Color.g, p1->Color.b);
+                SDL_FRect playerRect = get_ArrowRect(p1);
+                SDL_RenderCopyExF(g->Renderer, g->Arrow, NULL, &playerRect, p1->Angle*180/PI + 90, NULL, SDL_FLIP_NONE);
+            }
         }
         EndDraw(g);
     }

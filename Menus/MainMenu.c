@@ -72,7 +72,7 @@ void StartRandomGame(Menu* menu){
         .BaseHealth = RandomFR(50, 200),
         .BaseFriction = RandomFR(0.5f, 1.3f),
         .BaseWeapon = CreateWeapon(
-                (ShotType)RandomR(0, 3),
+                HEATSEEK,//(ShotType)RandomR(0, 3),
                 RandomFR(1, 70),
                 RandomFR(20, 1000),
                 RandomFR(0, 0.2f),
