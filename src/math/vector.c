@@ -68,6 +68,12 @@ vec2 vec2_Neg(vec2* a){
 vec2 vec2_NegV(vec2 a){
     return (vec2){-a.x, -a.y};
 }
+vec2 vec2_Sub(vec2* a, vec2* b){
+    return (vec2){a->x-b->x, a->y-b->y};
+}
+vec2 vec2_SubV(vec2 a, vec2 b){
+    return (vec2){a.x-b.x, a.y-b.y};
+}
 
 vec2 vec2_Mulf(vec2* a, float m){
     return (vec2){a->x * m, a->y * m};

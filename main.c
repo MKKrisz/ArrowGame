@@ -25,7 +25,7 @@ int main(void) {
 
     SDL_SetRenderDrawBlendMode(g.Renderer, SDL_BLENDMODE_BLEND);
     Game game;
-    game.PlayerCount = 0;
+    game.State = GAME_INVALID;
 
     Menu* main = LoadMenu("Menus/libMainMenu.so", &game, &g);
     UpdateLoop(main, &g);

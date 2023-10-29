@@ -1,0 +1,55 @@
+Config/graphics.cfg load / save
+Error management (gfx load)
+
+Custom game
+//Custom Game
+//Environment
+//Weapon
+//Start
+//Back
+
+Environment
+//Environment
+//PlayerCount (slider[2-4])
+//Acceleration (slider[50-1000])
+//Angular accel. (slider[3PI - 6PI])
+//Friction (slider[0.5-1.3])
+//Player HP (slider[50-250])
+
+Weapon
+//Weapon
+//Type (slider[0-2] with custom values and integer step)
+//Damage (slider[1-100])
+//Speed (slider[0-1000])
+//Reload time (slider[0-10])
+//Mag size (slider[1-50])
+
+Options menu
+//Options
+//Graphics
+//Controls (submenu for p1, p2, p3, p4)
+//Random game settings (this will be pissnshit to implement)
+//Back
+
+Graphics
+//Graphics
+//Width (slider[400-8000])
+//Height (slider[400-4000])
+//Scaling (0-2)
+//Fullscreen (yes - no)
+
+//Controls
+//Player 1 - list controls, on button select wait for next keydown-event, set it
+//Player 2
+//Player 3
+//Player 4
+//back
+
+Controls/Player1
+//Player 1 Controls
+//Input type (slider[keyboard - controller])
+//...
+//Apply
+//Back
+
+Error management on (input load)

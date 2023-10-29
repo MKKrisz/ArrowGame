@@ -42,6 +42,9 @@ vec2 vec2_AddV(vec2 a, vec2 b);
 vec2 vec2_Neg(vec2* a);
 vec2 vec2_NegV(vec2 a);
 
+vec2 vec2_Sub(vec2* a, vec2* b);
+vec2 vec2_SubV(vec2 a, vec2 b);
+
 vec2 vec2_Mulf(vec2* a, float m);
 vec2 vec2_MulfV(vec2 a, float m);
 
