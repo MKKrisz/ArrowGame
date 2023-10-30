@@ -8,11 +8,6 @@
 #include "src/game.h"
 #include "src/graphics/graphics.h"
 
-
-#define WIDTH 1920
-#define HEIGHT 1080
-#define SCALE 0.2f
-
 #define PI 3.1415926
 
 
@@ -20,7 +15,7 @@
 int main(void) {
     init_Random();
     InitText();
-    Graphics g = CreateGraphics("fos", WIDTH, HEIGHT, SCALE);
+    Graphics g = CreateGraphics(gfx_Load("Config/graphics.cfg"));
     IMG_Init(IMG_INIT_PNG);
 
     SDL_SetRenderDrawBlendMode(g.Renderer, SDL_BLENDMODE_BLEND);

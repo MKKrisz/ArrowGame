@@ -3,14 +3,44 @@
 #include <SDL2/SDL_image.h>
 #include "../../debugmalloc.h"
 
-Graphics CreateGraphics(gfxcfg* config){
-    return CreateGraphicsRaw("ArrowGame", config->Width, config->Height, config->Scaling, config->Fullscreen);
+
+/* File Format: WIDTH HEIGHT SCALING FULLSCREEN
+ * I differ from the original spec here, as instead of storing a single bool in the file for
+ * fullscreen, I store the SDL_WindowFlags value
+ */
+gfxcfg gfx_Load(char* path){
+    FILE* f = fopen(path, "r");
+    gfxcfg ret = gfx_Default();
+    if(f == NULL) {
+        gfx_Save(&ret, path);
+        return ret;
+    }
+    fscanf(f, "%d %d %f %u", &ret.Width, &ret.Height, &ret.Scaling, &ret.Fullscreen);
+    fclose(f);
+    return ret;
 }
 
-Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling, bool fullscreen){
+void gfx_Save(gfxcfg* config, char* path){
+    FILE* f = fopen(path, "w+");
+    fprintf(f, "%d %d %f %u", config->Width, config->Height, config->Scaling, config->Fullscreen);
+    fclose(f);
+}
+
+gfxcfg gfx_Default(){
+    SDL_DisplayMode current;
+    SDL_GetCurrentDisplayMode(0, &current);
+    return (gfxcfg){current.w, current.h, BASE_SCALING, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN};
+}
+
+
+Graphics CreateGraphics(gfxcfg config){
+    return CreateGraphicsRaw("ArrowGame", config.Width, config.Height, config.Scaling, config.Fullscreen);
+}
+
+Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling, uint flags){
     SDL_Init(SDL_INIT_EVERYTHING);
     Graphics g;
-    g.Window = SDL_CreateWindow(wName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | (fullscreen ? SDL_WINDOW_FULLSCREEN : 0));
+    g.Window = SDL_CreateWindow(wName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
     g.Renderer = SDL_CreateRenderer(g.Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
  
     g.Arrow = IMG_LoadTexture(g.Renderer, "Assets/Arrow.png");

@@ -3,12 +3,18 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 
+#define BASE_SCALING 0.2
+
 
 typedef struct GraphicsConfig{
     int Width, Height;
     float Scaling;
-    bool Fullscreen;
+    uint Fullscreen;
 } gfxcfg;
+
+gfxcfg gfx_Load(char* path);
+void gfx_Save(gfxcfg* config, char* path);
+gfxcfg gfx_Default();
 
 /* Container for all the graphics related stuff.
  */
@@ -27,7 +33,7 @@ typedef struct Graphics {
     int viewport_height;
 } Graphics;
 
-Graphics CreateGraphics(gfxcfg* config);
+Graphics CreateGraphics(gfxcfg config);
 
 /* Creates a Graphics object
  * @param const char* wName Name of the window
@@ -36,7 +42,7 @@ Graphics CreateGraphics(gfxcfg* config);
  * @param float scaliing size scaling for the internal viewport
  * @return a new Graphics object
  */
-Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling, bool fullscreen);
+Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling, uint flags);
 
 /* Frees all the heap allocated stuff of a graphics object.*/
 void DestroyGraphics(Graphics* g);
