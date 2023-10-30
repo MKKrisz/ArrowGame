@@ -3,10 +3,14 @@
 #include <SDL2/SDL_image.h>
 #include "../../debugmalloc.h"
 
-Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling){
+Graphics CreateGraphics(gfxcfg* config){
+    return CreateGraphicsRaw("ArrowGame", config->Width, config->Height, config->Scaling, config->Fullscreen);
+}
+
+Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling, bool fullscreen){
     SDL_Init(SDL_INIT_EVERYTHING);
     Graphics g;
-    g.Window = SDL_CreateWindow(wName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
+    g.Window = SDL_CreateWindow(wName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | (fullscreen ? SDL_WINDOW_FULLSCREEN : 0));
     g.Renderer = SDL_CreateRenderer(g.Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
  
     g.Arrow = IMG_LoadTexture(g.Renderer, "Assets/Arrow.png");

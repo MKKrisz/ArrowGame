@@ -27,7 +27,7 @@ typedef struct Graphics {
     int viewport_height;
 } Graphics;
 
-
+Graphics CreateGraphics(gfxcfg* config);
 
 /* Creates a Graphics object
  * @param const char* wName Name of the window
@@ -36,7 +36,7 @@ typedef struct Graphics {
  * @param float scaliing size scaling for the internal viewport
  * @return a new Graphics object
  */
-Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling);
+Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling, bool fullscreen);
 
 /* Frees all the heap allocated stuff of a graphics object.*/
 void DestroyGraphics(Graphics* g);
