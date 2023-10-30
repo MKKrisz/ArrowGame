@@ -14,6 +14,7 @@
 // Sets up the game configuration through an interactive menu, then starts the game.
 int main(void) {
     init_Random();
+    Init_Gfx();
     InitText();
     Graphics g = CreateGraphics(gfx_Load("Config/graphics.cfg"));
     IMG_Init(IMG_INIT_PNG);

@@ -1,5 +1,6 @@
 #include "graphics.h"
 #include <SDL2/SDL.h>
+#include <assert.h>
 #include <SDL2/SDL_image.h>
 #include "../../debugmalloc.h"
 
@@ -28,8 +29,16 @@ void gfx_Save(gfxcfg* config, char* path){
 
 gfxcfg gfx_Default(){
     SDL_DisplayMode current;
-    SDL_GetCurrentDisplayMode(0, &current);
+    if(SDL_GetCurrentDisplayMode(0, &current) != 0){
+        printf("%s\n", SDL_GetError());
+    }
     return (gfxcfg){current.w, current.h, BASE_SCALING, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN};
+}
+
+void Init_Gfx(){
+    if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
+        printf("%s", SDL_GetError());
+    }
 }
 
 
@@ -38,7 +47,6 @@ Graphics CreateGraphics(gfxcfg config){
 }
 
 Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling, uint flags){
-    SDL_Init(SDL_INIT_EVERYTHING);
     Graphics g;
     g.Window = SDL_CreateWindow(wName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
     g.Renderer = SDL_CreateRenderer(g.Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);

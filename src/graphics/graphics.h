@@ -33,6 +33,8 @@ typedef struct Graphics {
     int viewport_height;
 } Graphics;
 
+void Init_Gfx();
+
 Graphics CreateGraphics(gfxcfg config);
 
 /* Creates a Graphics object
