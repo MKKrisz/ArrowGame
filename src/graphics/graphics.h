@@ -52,7 +52,9 @@ void DestroyGraphics(Graphics* g);
 /* Creates a new viewport with the new scale.*/
 void RescaleViewport(Graphics* g, float scale);
 
-// Not inplementing window resizing, since it is not needed.
+void ResizeWindow(Graphics* g, int w, int h);
+
+void SetFullscreen(Graphics* g, bool state);
 
 /* Sets the current draw target of g to its viewport.*/
 void BeginDraw(Graphics* g);

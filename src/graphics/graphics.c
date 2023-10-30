@@ -6,12 +6,15 @@
 
 #define PrintError(x) if(x != 0){ \
     printf("%s at %s:%d\n", SDL_GetError(), __FILE__, __LINE__); \
+    exit(-1); \
 }
 #define PrintErrorPointer(x) if(x == NULL){ \
     printf("%s at %s:%d\n", SDL_GetError(), __FILE__, __LINE__); \
+    exit(-1); \
 }
 #define PrintErrorImg(x) if(x == NULL){ \
     printf("%s at %s:%d\n", IMG_GetError(), __FILE__, __LINE__); \
+    exit(-1); \
 }
 
 
@@ -97,6 +100,25 @@ void RescaleViewport(Graphics* g, float scale){
     SDL_DestroyTexture(g->Viewport);
     g->Viewport = SDL_CreateTexture(g->Renderer, SDL_PIXELFORMAT_ARGB32, SDL_TEXTUREACCESS_STREAMING, g->viewport_width, g->viewport_height);
     PrintErrorPointer(g->Viewport);
+}
+
+void ResizeWindow(Graphics* g, int w, int h){
+    g->window_width = w; g->window_height = h;
+    uint flags = SDL_GetWindowFlags(g->Window);
+    if(flags & SDL_WINDOW_FULLSCREEN) {
+        SDL_DisplayMode dm;
+        PrintError(SDL_GetCurrentDisplayMode(0, &dm));
+        dm.w = w; dm.h = h;
+        PrintError(SDL_SetWindowDisplayMode(g->Window, &dm));
+    }
+    else SDL_SetWindowSize(g->Window, w, h);
+}
+
+void SetFullscreen(Graphics* g, bool state){
+    uint flags = SDL_GetWindowFlags(g->Window);
+    if((flags & SDL_WINDOW_FULLSCREEN) != state) {
+        SDL_SetWindowFullscreen(g->Window, state ? SDL_WINDOW_FULLSCREEN : 0);
+    }
 }
 
 void BeginDraw(Graphics* g){
