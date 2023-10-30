@@ -49,6 +49,12 @@ Graphics CreateGraphics(gfxcfg config){
 Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling, uint flags){
     Graphics g;
     g.Window = SDL_CreateWindow(wName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+    if(flags & SDL_WINDOW_FULLSCREEN){
+        SDL_DisplayMode dm;
+        SDL_GetCurrentDisplayMode(0, &dm);
+        dm.w = width; dm.h = height;
+        SDL_SetWindowDisplayMode(g.Window, &dm);
+    }
     g.Renderer = SDL_CreateRenderer(g.Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
  
     g.Arrow = IMG_LoadTexture(g.Renderer, "Assets/Arrow.png");
