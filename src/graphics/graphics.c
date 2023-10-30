@@ -3,7 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include "../../debugmalloc.h"
 
-Graphics CreateGraphics(const char* wName, int width, int height, float scaling){
+Graphics CreateGraphicsRaw(const char* wName, int width, int height, float scaling){
     SDL_Init(SDL_INIT_EVERYTHING);
     Graphics g;
     g.Window = SDL_CreateWindow(wName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
