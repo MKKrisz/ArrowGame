@@ -2,21 +2,38 @@
 
 #include <SDL2/SDL.h>
 
-// Yes, I am using glm naming scheme, because I am a madlad and I want to cause havoc
+/* This is a basic implementation of a 2 dimensional vector struct.
+ * The struct is defined to have 2 real values as its fields
+ * Most functions related to this struct start with vec2_
+ * The funstions that end in "V" operate with values as opposed to references (pointers)
+ * The struct can be directly casted into an "SDL_FPoint", and vice versa.
+ * This struct may be referred to as just "vector" in the documentation
+ */
 typedef struct vector2 {
     float x, y;
 } vec2;
 
-
+/* Returns a vector with every field set to 0
+ */
 vec2 vec2_Zero();
+
+/* Returns a vector with every field set to 1
+ */
 vec2 vce2_Ones();
 
-/* Creates a 2 dimensional vector allocated on the stack
- * @param float x: x coordinate
- * @param float y: y coordinate
+// If you need heap-allocated vec2-s, you must create them explicitly using malloc
+// as this class will not contain support for that
+
+/* Creates a vector allocated on the stack from coordinates
+ * float x: x coordinate
+ * float y: y coordinate
  */
 vec2 vec2_Make(float x, float y);
 
+/* Creates a vector allocated on the stack from trigonometric representation
+ * float angle: the angle of the vector
+ * float magnitude: the magnitude of the vector
+ */
 vec2 vec2_MakeAM(float angle, float magnitude);
 
 // Gets the length of the specified vector
@@ -29,7 +46,8 @@ float vec2_get_Length(vec2* v);
 void  vec2_set_Length(vec2* v, float len);
 
 
-
+/*
+ */
 float vec2_get_Angle(vec2* v);
 void  vec2_set_Angle(vec2* v, float theta);
 

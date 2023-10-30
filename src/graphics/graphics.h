@@ -1,8 +1,15 @@
 #pragma once
 
+#include <stdbool.h>
 #include <SDL2/SDL.h>
 
-//Elnézést, hogy angolul, illetve más formátumban van dokumentálva, ez volt az első dokumentáció amit a programhoz írtam, és még nem tudtam, hogy mi hogy legyen pontosan
+
+typedef struct GraphicsConfig{
+    int Width, Height;
+    float Scaling;
+    bool Fullscreen;
+} gfxcfg;
+
 /* Container for all the graphics related stuff.
  */
 typedef struct Graphics {
