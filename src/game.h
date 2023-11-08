@@ -51,9 +51,6 @@ void InitArrows(Game* game, Graphics* g);
 void BounceEdge(struct Arrow* arrow, Graphics* g);
 
 
-// Put this here, because I don't know where else to put it
-// Ő lenne a "tésztaszűrő". Ő felel a láncolt listában tárolt Particle-k frissítéséért, kirajzolásáért, illetve törléséért.
-// Ha meg kéne mondanom, hogy mi tud a legnagyobb valószínűséggel memory leaket okozni, ezt a funkciót mondanám.
 void UpdateParticles(Game* game);
 void DrawParticles(ParticleElement* first, Graphics* g);
 

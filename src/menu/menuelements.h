@@ -29,16 +29,15 @@ Button* CreateButton(Text* t, void (*interact)(struct Menu* menu));
 void DrawButton(Button* b, Graphics* g, bool selected);
 void DestroyButton(Button* b);
 
-//Looks like:  Blah        50 -----o-----
+//Looks like:  Blah        50
 typedef struct Slider{
     Text* Text;
-    void (*Modify)(struct Menu* menu, float t);
+    void (*Modify)(struct Menu* menu, struct Slider* self, float t);
     float Value;
-    //hack
     struct Text* ValueText;
 } Slider;
 
-Slider* CreateSlider(Text* title, float def, void (*interact)(struct Menu* menu, float t));
+Slider* CreateSlider(Text* title, float def, void (*interact)(struct Menu* menu, struct Slider* self, float t));
 void DrawSlider(Slider* s, Graphics* g, bool selected);
 void DestroySlider(Slider* s);
 

@@ -25,6 +25,7 @@ typedef struct Text{
 Text* CreateText(char* text, int size, Graphics* g);
 void SetTextPos(Text* text, int x, int y);
 void SetTextColor(Text* text, SDL_Color c);
+void SetTextString(Text* text, const char* str, Graphics* g);
 void DrawText(Text* text, Graphics* g);
 void DestroyText(Text* text);
 

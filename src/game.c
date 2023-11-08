@@ -113,6 +113,8 @@ void GameLoop(Game* game, Graphics* g){
 
     while(game->State != GAME_STOPPED){
         BeginDraw(g);
+        SDL_SetRenderDrawColor(g->Renderer, 0, 0, 0, 0);
+        SDL_RenderClear(g->Renderer);
         DrawParticles(game->Particles->First, g);
         DrawBullets(game->Bullets->First, g, game->CDelta);
         for(int i = 0; i<game->PlayerCount; i++){
@@ -219,13 +221,13 @@ bool ProcessHits(Game* game, Bullet* b){
 
         if(CheckHit(hitVec)){
             p->Health -= w->Damage;
-            p->Velocity = vec2_AddV(p->Velocity, vec2_MulfV(b->Velocity, 0.0001f));
+            p->Velocity = vec2_AddV(p->Velocity, vec2_MulfV(b->Velocity, 0.001f));
 
             int cParticles = RandomR(1, 8);
             for(int z = 0; z < cParticles; z++){
                 add_ParticleElement_front(game->Particles, new_ParticleElement( CreateParticle(
                     hitVec,
-                    vec2_AddV(RandomVec2A(w->BulletSpeed * 0.01f), vec2_AddV(b->Position, vec2_NegV(p->Position))),
+                    vec2_AddV(RandomVec2A(w->BulletSpeed * 0.01f), vec2_SubV(b->Position, p->Position)),
                     PARTICLE_BASE_LIFE + RandomFR(-1.0f, 1.0f),
                     p->Color
                 )));

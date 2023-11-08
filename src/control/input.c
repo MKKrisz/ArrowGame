@@ -5,6 +5,26 @@
 
 int usedJoysticks = 0;
 
+//These are SDL_GameControllerButton names, except they are made human-readable
+/*char* buttonNames[21] = {"A", "B", "X", "Y", "Back", "Guide", "Start", "LS", "RS", "LB", "RS", "Dpad Up",
+                         "Dpad Down", "Dpad Left", "Dpad Right", "MISC1", "PADDLE1", "PADDLE2", "PADDLE3",
+                         "PADDLE4", "TOUCHPAD"}*/
+
+
+const char* GetEnumName(Input_t type, uint value){
+    switch(type){
+        case KEYBOARD:
+            return SDL_GetScancodeName((SDL_Scancode)value);
+        case BUTTON:
+            return SDL_GameControllerGetStringForButton(value);
+        case POSITIVE_AXIS:
+        case NEGATIVE_AXIS:
+            return SDL_GameControllerGetStringForAxis(value);
+            
+    }
+    return NULL;
+}
+
 ButtonInfo* get_ButtonInfo(InputConfig* cfg, int id) {
     return &(cfg->Buttons[id]);
 }
@@ -35,7 +55,7 @@ void UpdateButton(InputConfig* cfg, Input* input, int id){
 
 void UpdateButtons(InputConfig* cfg, Input* input){
     input->kbState = SDL_GetKeyboardState(NULL);
-    for(int i = 0; i < INPUT_ID_LENGTH; i++){
+    for(int i = 0; i < TRUE_INPUT_ID_LENGTH; i++){
         UpdateButton(cfg, input, i);
     }
 }
@@ -64,25 +84,47 @@ ButtonInfo ButtonInfo_Make(Input_t type, uint ID){
 
 InputConfig* LoadInputConfig(const char* path){
     InputConfig* cfg = malloc(sizeof(InputConfig));
+    set_ButtonInfo(cfg, M_UP,   (ButtonInfo){.Type = KEYBOARD, .Key = SDL_SCANCODE_UNKNOWN});
+    set_ButtonInfo(cfg, M_DOWN, (ButtonInfo){.Type = KEYBOARD, .Key = SDL_SCANCODE_UNKNOWN});
+    set_ButtonInfo(cfg, M_LEFT, (ButtonInfo){.Type = KEYBOARD, .Key = SDL_SCANCODE_UNKNOWN});
+    set_ButtonInfo(cfg, M_RIGHT,(ButtonInfo){.Type = KEYBOARD, .Key = SDL_SCANCODE_UNKNOWN});
+    set_ButtonInfo(cfg, M_OK,   (ButtonInfo){.Type = KEYBOARD, .Key = SDL_SCANCODE_UNKNOWN});
+
     FILE* file = fopen(path, "r");
     if(file == NULL){ file = fopen("Config/default.icfg", "r");}
 
     for(int i = 0; i < INPUT_ID_LENGTH; i++){
         fscanf(file, "%u %u\n", &cfg->Buttons[i].Type, &cfg->Buttons[i].Key);
     }
-    bool usesController = false;
+    cfg->UsesCtrl = false;
     for(int i = 0; i<INPUT_ID_LENGTH; i++){
         if(cfg->Buttons[i].Type != 0){
-            usesController = true;
+            cfg->UsesCtrl = true;
             break;
         }
     }
-    if(usesController && usedJoysticks < SDL_NumJoysticks()){
+    if(cfg->UsesCtrl && usedJoysticks < SDL_NumJoysticks()){
         cfg->Controller = SDL_GameControllerOpen(usedJoysticks);
+        //printf("%s", SDL_GetError());
         usedJoysticks++;
+        set_ButtonInfo(cfg, M_UP,   (ButtonInfo){.Type = BUTTON, .Button = SDL_CONTROLLER_BUTTON_DPAD_UP});
+        set_ButtonInfo(cfg, M_DOWN, (ButtonInfo){.Type = BUTTON, .Button = SDL_CONTROLLER_BUTTON_DPAD_DOWN});
+        set_ButtonInfo(cfg, M_LEFT, (ButtonInfo){.Type = BUTTON, .Button = SDL_CONTROLLER_BUTTON_DPAD_LEFT});
+        set_ButtonInfo(cfg, M_RIGHT,(ButtonInfo){.Type = BUTTON, .Button = SDL_CONTROLLER_BUTTON_DPAD_RIGHT});
+        set_ButtonInfo(cfg, M_OK,   (ButtonInfo){.Type = BUTTON, .Button = SDL_CONTROLLER_BUTTON_A});
     }
-    else if(usesController){cfg->Controller = NULL;}
+    else cfg->Controller = NULL;
+    //printf("%s", SDL_GetError());
     return cfg;
+}
+
+void DeloadInputConfig(InputConfig* cfg){
+    if(cfg == NULL) return;
+    if(cfg->Controller != NULL){
+        SDL_GameControllerClose(cfg->Controller);
+        usedJoysticks--;
+    }
+    free(cfg);
 }
 
 void SaveInputConfig(const char* path, InputConfig* cfg){

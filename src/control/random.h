@@ -4,6 +4,7 @@
 #include <time.h>
 #include <SDL2/SDL.h>
 #include "../math/vector.h"
+#include "../gcfg.h"
 
 // Jelenlegi idővel seedeli a random generátort.
 void init_Random();
@@ -38,6 +39,7 @@ vec2 RandomVec2MR(float angle, float l_min, float l_max);
 // Vektort hoz létre random szöggel, l_min és l_max közti hosszal.
 vec2 RandomVec2AMR(float l_min, float l_max);
 
+float RandomRange(Range r);
 
 //TODO: Make a custom color struct ranging between 0 and 1
 

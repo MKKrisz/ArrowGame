@@ -6,7 +6,8 @@ void Init(Menu* m, void* data, Graphics* graph);
 void Update(Menu* m);
 Game Return();
 
-void StartRandomGame(Menu* menu);
-void StartCustomGame(Menu* menu);
-void SetOptions(Menu* menu);
-void Quit(Menu* menu);
+void p1(Menu* m);
+void p2(Menu* m);
+void p3(Menu* m);
+void p4(Menu* m);
+void Back(Menu* m);

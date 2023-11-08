@@ -28,10 +28,12 @@ void DrawMenuEntry(MenuEntry* entry, Graphics* g, bool selected) {
 void HandleEntryInteract(Menu* menu, MenuEntry* entry, float dsliderf){
     switch(entry->Type){
         case MENU_BUTTON:
-            (*entry->Button->Interact)(menu);
+            if(entry->Button->Interact != NULL)
+                (*entry->Button->Interact)(menu);
             break;
         case MENU_SLIDER:
-            (*entry->Slider->Modify)(menu, entry->Slider->Value + dsliderf);
+            (*entry->Slider->Modify)(menu, entry->Slider, entry->Slider->Value + dsliderf);
+            break;
         default: 
             break;
     }

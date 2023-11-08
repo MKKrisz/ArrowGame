@@ -9,7 +9,17 @@ set(GAME_SOURCES ../src/control/random.h ../src/control/random.c
                  ../src/dataStructures/ParticlePasta.h ../src/dataStructures/ParticlePasta.c
                  ../src/math/vector.h ../src/math/vector.c
                  ../src/math/lerp.h ../src/math/lerp.c
-        ../src/control/input.h ../src/control/input.c
-                 ../src/graphics/graphics.h ../src/graphics/graphics.c)
+                 ../src/control/input.h ../src/control/input.c
+                 ../src/graphics/graphics.h ../src/graphics/graphics.c
+                 ../src/gcfg.h ../src/gcfg.c)
 
-add_library(MainMenu SHARED MainMenu.h MainMenu.c ../debugmalloc.h ${MENU_SOURCES} ${RANDOM_SOURCES} ${GAME_SOURCES})
+add_library(MainMenu SHARED MainMenu.h MainMenu.c ../debugmalloc.h ${MENU_SOURCES} ${GAME_SOURCES})
+add_library(OptionsMenu SHARED OptionsMenu.h OptionsMenu.c ../debugmalloc.h ${MENU_SOURCES} ${GAME_SOURCES})
+add_library(GraphicsMenu SHARED GraphicsMenu.h GraphicsMenu.c ../debugmalloc.h ${MENU_SOURCES} ${GAME_SOURCES})
+add_library(InputMenu SHARED InputMenu.h InputMenu.c ../debugmalloc.h ${MENU_SOURCES} ${GAME_SOURCES})
+add_library(IPlayerSelector SHARED IPlayerSelector.h IPlayerSelector.c ../debugmalloc.h ${MENU_SOURCES} ${GAME_SOURCES})
+add_library(GcfgMenu SHARED GcfgMenu.h GcfgMenu.c ../debugmalloc.h ${MENU_SOURCES} ${GAME_SOURCES})
+
+
+
+

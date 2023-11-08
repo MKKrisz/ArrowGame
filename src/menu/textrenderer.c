@@ -8,7 +8,7 @@ TTF_Font* BaseMenuFont;
 
 void InitText(){
     TTF_Init();
-    BaseMenuFont = TTF_OpenFont("Assets/ConnectionIi-2wj8.otf", BASE_FONT_SIZE);
+    BaseMenuFont = TTF_OpenFont("Assets/font.otf", BASE_FONT_SIZE);
     //printf("%s", TTF_GetError());
 }
 void BlankRender(Text* text, Graphics* g){
@@ -24,9 +24,10 @@ void BlankRender(Text* text, Graphics* g){
 
 Text* CreateText(char* text, int size, Graphics* g){
     Text* op = malloc(sizeof(Text));
-    op->Text = text;
+    op->Text = malloc((strlen(text) + 1)*sizeof(char));
+    strcpy(op->Text, text);
     op->FontSize = size;
-    op->Font = TTF_OpenFont("Assets/ConnectionIi-2wj8.otf", size);
+    op->Font = TTF_OpenFont("Assets/font.otf", size);
     op->Color = BASE_FONT_COLOR;
     op->RenderedTexture = NULL;
     op->DrawRect = (SDL_Rect){0, 0, 0, 0};
@@ -44,6 +45,12 @@ void SetTextColor(Text* text, SDL_Color c){
     SDL_DestroyTexture(text->RenderedTexture);
     text->RenderedTexture = NULL;
 }
+void SetTextString(Text* text, const char* str, Graphics* g){
+    text->Text = realloc(text->Text, (strlen(str) + 1) * sizeof(char));
+    strcpy(text->Text, str);
+    text->RenderedTexture = NULL;
+    BlankRender(text, g);
+}
 
 void DrawText(Text* text, Graphics* g){
     if(text->RenderedTexture == NULL){
@@ -60,5 +67,6 @@ void DrawText(Text* text, Graphics* g){
 void DestroyText(Text* text){
     SDL_DestroyTexture(text->RenderedTexture);
     TTF_CloseFont(text->Font);
+    free(text->Text);
     free(text);
 }

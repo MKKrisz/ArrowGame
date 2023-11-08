@@ -1,86 +1,54 @@
 #include "MainMenu.h"
 #include "../debugmalloc.h"
-#include "../src/menu/textrenderer.h"
-//#include "../src/control/random.h"
+#include "../src/gcfg.h"
 
 #define PI 3.1415926
 
 Game game;
 Graphics* graph;
 
-void Init(Menu* m, Game* g, Graphics* gr){
-    if(g != NULL) game = *g;
+void Init(Menu* m, void* data, Graphics* gr){
+    if(data != NULL) game = *(Game*)data;
     game.State = GAME_INVALID;
     graph = gr;
 
+    m->State = MENU_INIT;
+
     m->Name = "MainMenu";
+    char* texts[] = {"ArrowGame", "Random Game", "Custom Game", "Options", "Quit"};
+    InitBasicMenu(m, texts, 5, gr);
+    m->Entries[1].Button->Interact = StartRandomGame;
+    m->Entries[2].Button->Interact = StartCustomGame;
+    m->Entries[3].Button->Interact = SetOptions;
+    m->Entries[4].Button->Interact = Quit;
 
-    m->EntryCount = 5;
-    m->SelectedEntry = 1;
-    m->Entries = malloc(sizeof(MenuEntry) * m->EntryCount);
-
-    m->Entries[0].Type = MENU_TEXTBOX;
-    m->Entries[0].Textbox = CreateTextbox(CreateText("ArrowGame", 22, gr));
-    SetTextPos(m->Entries[0].Button->Text, 1, gr->viewport_height - m->Entries[0].Textbox->Text->DrawRect.h - 1);
-    m->Entries[0].Backdrop = (SDL_Rect){0,
-                                        gr->viewport_height - m->Entries[0].Textbox->Text->DrawRect.h - 2,
-                                        gr->viewport_width,
-                                        m->Entries[0].Textbox->Text->DrawRect.h + 2};
-
-    m->Entries[1].Type = MENU_BUTTON;
-    m->Entries[1].Button = CreateButton(CreateText("Random Game", 15, gr), StartRandomGame);
-    SetTextPos(m->Entries[1].Button->Text, 1, m->Entries[0].Backdrop.y - m->Entries[1].Button->Text->DrawRect.h - 2);
-    m->Entries[1].Backdrop = (SDL_Rect){0,
-                                        m->Entries[0].Backdrop.y - m->Entries[1].Button->Text->DrawRect.h - 2, 
-                                        gr->viewport_width,
-                                        m->Entries[1].Button->Text->DrawRect.h + 2};
-    
-    m->Entries[2].Type = MENU_BUTTON;
-    m->Entries[2].Button = CreateButton(CreateText("Custom Game", 15, gr), StartCustomGame);
-    SetTextPos(m->Entries[2].Button->Text, 1, m->Entries[1].Backdrop.y - m->Entries[2].Button->Text->DrawRect.h - 2);
-    m->Entries[2].Backdrop = (SDL_Rect){0,
-                                        m->Entries[1].Backdrop.y - m->Entries[2].Button->Text->DrawRect.h - 2,
-                                        gr->viewport_width,
-                                        m->Entries[2].Button->Text->DrawRect.h + 2};
-
-    m->Entries[3].Type = MENU_BUTTON;
-    m->Entries[3].Button = CreateButton(CreateText("Options", 15, gr), SetOptions);
-    SetTextPos(m->Entries[3].Button->Text, 1, m->Entries[2].Backdrop.y - m->Entries[3].Button->Text->DrawRect.h - 2);
-    m->Entries[3].Backdrop = (SDL_Rect){0,
-                                        m->Entries[2].Backdrop.y - m->Entries[3].Button->Text->DrawRect.h - 2,
-                                        gr->viewport_width,
-                                        m->Entries[3].Button->Text->DrawRect.h + 2};
-
-    m->Entries[4].Type = MENU_BUTTON;
-    m->Entries[4].Button = CreateButton(CreateText("Quit", 15, gr), Quit);
-    SetTextPos(m->Entries[4].Button->Text, 1, m->Entries[3].Backdrop.y - m->Entries[4].Button->Text->DrawRect.h - 2);
-    m->Entries[4].Backdrop = (SDL_Rect){0,
-                                        m->Entries[3].Backdrop.y - m->Entries[4].Button->Text->DrawRect.h - 2,
-                                        gr->viewport_width,
-                                        m->Entries[3].Button->Text->DrawRect.h + 2};
+    m->State = MENU_RUNNING;
 }
 
 void Update(Menu* m){}
-//Game Return();
 
+//TODO: Load edge values from file
 void StartRandomGame(Menu* menu){
+    Gcfg g = gcfg_Load("Config/random.gcfg");
+    //printf("%d", (int)g.Values[GCFG_WEAPON_TYPE].min);
     game = (Game){
         .State = GAME_SET,
-        .PlayerCount = 2,
-        .BaseAccel = RandomFR(100, 500),
-        .BaseAngular = RandomFR(PI*3.0f, PI*6.0f),
-        .BaseHealth = RandomFR(50, 200),
-        .BaseFriction = RandomFR(0.5f, 1.3f),
+        .PlayerCount = (int)g.Values[GCFG_PLAYERCOUNT].min,
+        .BaseAccel = RandomRange(g.Values[GCFG_ACCEL]),
+        .BaseAngular = RandomRange(g.Values[GCFG_ANGULAR]),
+        .BaseHealth = RandomRange(g.Values[GCFG_HP]),
+        .BaseFriction = RandomRange(g.Values[GCFG_FRICTION]),
         .BaseWeapon = CreateWeapon(
-                HEATSEEK,//(ShotType)RandomR(0, 3),
-                RandomFR(1, 70),
-                RandomFR(20, 1000),
-                RandomFR(0, 0.2f),
-                RandomF(),
-                RandomR(1, 50)
+                (int)g.Values[GCFG_WEAPON_TYPE].min == BULLETTYPE_LENGTH? RandomR(0, 3) : (int)g.Values[GCFG_WEAPON_TYPE].min,
+                RandomRange(g.Values[GCFG_WEAPON_DMG]),
+                RandomRange(g.Values[GCFG_WEAPON_SPD]),
+                RandomRange(g.Values[GCFG_WEAPON_ACC]),
+                RandomRange(g.Values[GCFG_WEAPON_FRATE]),
+                RandomRange(g.Values[GCFG_WEAPON_MAGSIZE])
                 )
     };
-    menu->Running = false;
+    printf("%u", game.BaseWeapon->Type);
+    menu->State = MENU_STOPPED;
 }
 
 void StartCustomGame(Menu* menu){
@@ -90,15 +58,23 @@ void StartCustomGame(Menu* menu){
     UpdateLoop(cfg, graph);
     game = cfg->GetGame();
     DeallocMenu(cfg);
-    if(game.PlayerCount > 0) menu->Running = false;
+    if(game.PlayerCount > 0) menu->State = false;
 }
 
 void SetOptions(Menu* menu){
-    return;     // No thanks, I'm not implementing that yet
+    Menu* opts = LoadMenu("Menus/libOptionsMenu.so", NULL, graph);
+    //Graphics g = *graph;
+    menu->State = MENU_WAITING;
+    UpdateLoop(opts, graph);
+    menu->State = MENU_RUNNING;
+    if(opts->State == MENU_EXITED) menu->State = MENU_EXITED;
+    if(opts->State & MENU_WASUPDATED) menu->State = MENU_UPDATE;
+    DeallocMenu(opts);
 }
 
 void Quit(Menu* menu){
-    menu->Running = false;
+    game.State = GAME_INVALID;
+    menu->State = false;
 }
 
 Game Return(){

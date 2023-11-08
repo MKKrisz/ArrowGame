@@ -14,7 +14,13 @@ typedef enum InputID {
     SHOOT = 4,
     BOOST = 5,
     PAUSE = 6,
-    INPUT_ID_LENGTH = 7
+    INPUT_ID_LENGTH = 7,
+    M_UP = 7,
+    M_DOWN = 8,
+    M_LEFT = 9,
+    M_RIGHT = 10,
+    M_OK = 11,
+    TRUE_INPUT_ID_LENGTH = 12,
 } InputID;
 
 typedef enum Input_t {
@@ -37,14 +43,17 @@ typedef struct ButtonInfo {
 // Az adott konfiguráció tárolója
 typedef struct InputConfig {
     SDL_GameController* Controller;
-    ButtonInfo Buttons[7]; 
+    bool UsesCtrl;
+    ButtonInfo Buttons[12]; 
 } InputConfig;
 
 // Valamilyen bemeneti konfiguráció állapotának tárolója
 typedef struct Input {
     const Uint8* kbState;
-    float state[7];
+    float state[12];
 } Input;
+
+const char* GetEnumName(Input_t type, uint value);
 
 // Kinyeri a bemeneti konfigurációból egy adott konfiguráció értékét.
 ButtonInfo* get_ButtonInfo(InputConfig* cfg, int id);
@@ -66,6 +75,8 @@ ButtonInfo ButtonInfo_Make(Input_t type, uint ID);
 
 // Betölt fájlból egy bemeneti konfigurációt.
 InputConfig* LoadInputConfig(const char* path);
+
+void DeloadInputConfig(InputConfig* cfg);
 
 // Fájlba ment egy bemeneti konfigurációt.
 void SaveInputConfig(const char* path, InputConfig* cfg);

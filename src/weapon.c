@@ -43,6 +43,8 @@ bool Fire(Arrow* a, Game* g){
 
     add_BulletElement_front(g->Bullets, CreateBulletElement(CreateBullet(g, a)));
     a->Weapon->Magazine--;
+    a->Velocity = vec2_SubV(a->Velocity, vec2_MulfV(g->Bullets->First->Sauce->Velocity, 0.001f));
+    a->Weapon->FireTimer = 0; 
     return true;
 }
 

@@ -21,6 +21,12 @@ float RandomFR(float min, float max){
     return RandomF() * (max-min) + min;
 }
 
+float RandomRange(Range r){
+    if(r.type == SINGLE) return r.min;
+    return RandomFR(r.min, r.max);
+}
+
+
 #define PI 3.1415926
 
 vec2 RandomVec2(){

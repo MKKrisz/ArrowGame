@@ -38,7 +38,7 @@ void DestroyButton(Button* b){
     free(b);
 }
 
-Slider* CreateSlider(Text* title, float def, void (*interact)(struct Menu* menu, float t)){
+Slider* CreateSlider(Text* title, float def, void (*interact)(Menu* menu, Slider* self, float t)){
     Slider* op = malloc(sizeof(Slider));
     op->Text = title;
     op->Value = def;

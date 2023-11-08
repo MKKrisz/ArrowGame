@@ -20,20 +20,19 @@ bool UpdateArrow(Arrow* arrow, Game* game){
     float Accel_mag = get_ButtonState(arrow->Input, FORWARD) * arrow->Accel;
     Accel_mag -= get_ButtonState(arrow->Input, BACK) * arrow->Accel;
 
-    vec2 Accel = vec2_MakeAM(arrow->Angle, Accel_mag);
-    arrow->Velocity.x += Accel.x * game->CDelta;
-    arrow->Velocity.y += Accel.y * game->CDelta;
+    vec2 Accel = vec2_MakeAM(arrow->Angle, Accel_mag); 
 
-    arrow->Position.x += arrow->Velocity.x * game->CDelta;
-    arrow->Position.y += arrow->Velocity.y * game->CDelta;
+    arrow->Velocity = vec2_AddV(arrow->Velocity, vec2_MulfV(Accel, game->CDelta));
 
-    arrow->Velocity = vec2_Mulf(&arrow->Velocity, speed_dec);
+    arrow->Position = vec2_AddV(arrow->Position, vec2_MulfV(arrow->Velocity, game->CDelta));
+
+    arrow->Velocity = vec2_MulfV(arrow->Velocity, speed_dec);
     return arrow->Input->state[FORWARD] > 0;
 }
 
 bool CollideArrow(Arrow* a, Arrow* b){
     //a-ból b-be mutató vektor
-    vec2 distance = {a->Position.x - b->Position.x, a->Position.y - b->Position.y};
+    vec2 distance = vec2_SubV(a->Position, b->Position);
     if(vec2_get_Length(&distance) > ARROW_SIZE*3.0f/4.0f) return false;
 
     vec2 normal = vec2_Normalize(&distance);
@@ -74,5 +73,6 @@ SDL_FRect get_ArrowRect(Arrow* arrow){
 }
 
 vec2 get_ThrusterParticleVelocity(Arrow* arrow, Game* game){
-    return vec2_MakeAM(arrow->Angle - PI + RandomFR(-PI/RandomFR(3.0f, 5.0f), PI/RandomFR(3.0f, 5.0f)), game->BaseAccel/10 + RandomFR(-1.0f, 1.0f));
+    return vec2_MakeAM(arrow->Angle - PI + RandomFR(-PI/RandomFR(3.0f, 5.0f), PI/RandomFR(3.0f, 5.0f)), 
+            game->BaseAccel/10 + RandomFR(-1.0f, 1.0f));
 }

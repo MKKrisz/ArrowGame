@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "bullet.h"
 #include "../debugmalloc.h"
 
@@ -17,10 +19,10 @@ void UpdateBullet(Bullet* b, Game* game){
         for(int i = 0; i<game->PlayerCount; i++){
             if(b->Owner == &game->Players[i]) continue;
             if(game->Players[i].Health <= 0) continue;
-            vec2 VArrow = vec2_AddV(game->Players[i].Position, vec2_NegV(b->Position));
+            vec2 VArrow = vec2_SubV(game->Players[i].Position, b->Position);
             float dist = vec2_get_Length(&VArrow);
 
-            b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(VArrow, game->BaseWeapon->BulletSpeed *PI/(dist*dist)));
+            b->Velocity = vec2_AddV(b->Velocity, vec2_MulfV(VArrow, game->BaseWeapon->BulletSpeed *PI/(dist*dist*dist)));
             b->Velocity = vec2_MulfV(vec2_Normalize(&b->Velocity), game->BaseWeapon->BulletSpeed);
         }
     }
@@ -33,11 +35,11 @@ void UpdateBullet(Bullet* b, Game* game){
 #define HIT_BASE(t) (vec2){bullet->Position.x + (t * dir.x), bullet->Position.y + (t * dir.y)} 
 vec2 GetHitVec(Arrow* arrow, Bullet* bullet, float delta){
     if(bullet == NULL) return MISS;
-    if(arrow == bullet->Owner)return MISS;
+    if(arrow == bullet->Owner) return MISS;
 
-    vec2 origin = vec2_AddV(bullet->Position, vec2_NegV(arrow->Position));
+    vec2 origin = vec2_SubV(bullet->Position, arrow->Position);
     
-    vec2 dir = vec2_Normalize(&bullet->Velocity);
+    vec2 dir = bullet->Velocity;
     float a = vec2_DotV(dir, dir);
     float b = 2 * vec2_DotV(dir, origin);
     float c = vec2_DotV(origin, origin) - (ARROW_SIZE * ARROW_SIZE)/4.0f;
@@ -46,8 +48,8 @@ vec2 GetHitVec(Arrow* arrow, Bullet* bullet, float delta){
     if(d<0) return MISS;
 
     float t1 = (-b - sqrt(d)) / (2*a);
-    if(bullet->Type == HITSCAN) return HIT(t1);
-    else if(t1 < delta) return HIT(t1);
+    if(bullet->Type == HITSCAN && t1 > 0) return HIT(t1);
+    else if(fabs(t1) < delta) return HIT(t1);
     return MISS;
 }
 

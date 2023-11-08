@@ -26,6 +26,10 @@ int main(void) {
     Menu* main = LoadMenu("Menus/libMainMenu.so", &game, &g);
     UpdateLoop(main, &g);
     if(main->GetGame != NULL) game = (*main->GetGame)();
+
+    // This is a workaround so that I don't need to reposition the menu elements, but when
+    // the game starts, it is the right size.
+    RescaleViewport(&g, g.viewport_scale);
     
     GameLoop(&game, &g);
 

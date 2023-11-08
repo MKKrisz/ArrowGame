@@ -22,6 +22,8 @@ typedef struct Graphics {
     SDL_Window* Window;
     SDL_Renderer* Renderer;
     SDL_Texture* Viewport;
+    //This might be needed as SDL does not save the pointer to the actual Viewport texture, but to the native one.
+    SDL_Texture* cViewport;
 
     SDL_Texture* Arrow;
 
