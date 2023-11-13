@@ -23,6 +23,7 @@ ENDFOREACH()
 list(TRANSFORM RESOURCES PREPEND ${CMAKE_CURRENT_BINARY_DIR}/)
 
 add_executable(${PROJECT_NAME} ${RESOURCES} main.c debugmalloc.h)
+add_library(Game SHARED debugmalloc.h)
 add_subdirectory(src)
 
 add_subdirectory(Menus)

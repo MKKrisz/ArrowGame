@@ -1,4 +1,4 @@
-add_library(Game SHARED ../debugmalloc.h 
+target_sources(Game PRIVATE
     game.h game.c 
     particle.h particle.c 
     arrow.h arrow.c 
