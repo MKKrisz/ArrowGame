@@ -1,6 +1,5 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 #include "../debugmalloc.h"
 #include "game.h"
@@ -8,10 +7,13 @@
 #include "dataStructures/BulletPasta.h"
 #include "control/input.h"
 #include "math/vector.h"
+#include "menu/menu.h"
 
 #define PI 3.1415926f
 #define PARTICLE_BASE_LIFE 2.0f
 #define THRUSTER_PARTICLE_SPAWNTIME 0.001f
+
+Menu* menu;
 
 // FIGYELMEZTETÉS AZ OLVASÓNAK: Ez a fájl írásról írásra olvashatatlanabb lesz, mindennemű karbantartási igyekezet
 //     ellenére. Olvasás csak saját felelősségre (Azt pletykálják, olyan hatással van a szemre, mint 2
@@ -31,22 +33,26 @@ uint GameCallback(uint delta, void* data){
     Graphics* g = ((GGTuple*)data)->graphics;
     Game* game = ((GGTuple*)data)->game;
 
+    if(game->State != GAME_RUNNING) return 1;
     // tl;dr: delta = delta
     game->CDelta = (float)delta / 1000.0f;
 
     // tl;dr: Megnézzük elege lett-e a játékosnak
     SDL_Event currentEvent;
     while(SDL_PollEvent(&currentEvent) != 0){
-        if(currentEvent.type == SDL_QUIT) game->State = GAME_STOPPED;
+        if(currentEvent.type == SDL_QUIT) game->State = GAME_EXITED;
     }
 
     // tl;dr: Sacreligios linkd-list updater csoda callok
     UpdateParticles(game);
     UpdateBullets(game, g);
 
+    int alivecount = 0;
+
     for(int i = 0; i<game->PlayerCount; i++){
         Arrow* p1 = &game->Players[i];
         if(game->Players[i].Health <= 0) continue;
+        alivecount++;
 
         //Ha előre gyorsult
         if(UpdateArrow(p1, game)){
@@ -67,6 +73,11 @@ uint GameCallback(uint delta, void* data){
         //Ha le van nyomva a SHOOT gomb, lőjj!
         if(get_ButtonState(p1->Input, SHOOT) > 0){
             Fire(p1, game);
+        }
+        if(get_ButtonState(p1->Input, PAUSE) > 0 && menu == NULL){
+            SetP1ic(p1->Config, p1->Input);
+            //menu = LoadMenu("Menus/libPauseMenu.so", game, g);
+            game->State = GAME_PAUSED;
         }
 
         //Visszapattint a képernyő széléről
@@ -89,12 +100,15 @@ uint GameCallback(uint delta, void* data){
             }
         }
     }
+    if(alivecount<2){game->State = GAME_FINISHED;}
     return game->State != GAME_STOPPED;
 }
 
 
 void GameLoop(Game* game, Graphics* g){    
     if(game->State != GAME_SET) return;
+    menu = NULL;
+    if(game->BaseWeapon->Type == HITSCAN) game->BaseWeapon->Damage /= 10.0f;
 
     game->Players = malloc(sizeof(Arrow) * game->PlayerCount);
 
@@ -105,25 +119,55 @@ void GameLoop(Game* game, Graphics* g){
     game->Bullets = &pasta2;
 
     InitArrows(game, g);
-    
+
+    game->State = GAME_RUNNING;
     game->CDelta = 0.1f;
+
+    float wait = 1.0f;
 
     GGTuple params = {game, g};
     SDL_TimerID loopTimer = SDL_AddTimer(20, GameCallback, &params);
 
-    while(game->State != GAME_STOPPED){
+    while(game->State != GAME_STOPPED && game->State != GAME_EXITED){
         BeginDraw(g);
+
         SDL_SetRenderDrawColor(g->Renderer, 0, 0, 0, 0);
         SDL_RenderClear(g->Renderer);
         DrawParticles(game->Particles->First, g);
         DrawBullets(game->Bullets->First, g, game->CDelta);
         for(int i = 0; i<game->PlayerCount; i++){
             Arrow* p1 = &game->Players[i];
-            if(p1->Health>0){
-                SDL_SetTextureColorMod(g->Arrow, p1->Color.r, p1->Color.g, p1->Color.b);
-                SDL_FRect playerRect = get_ArrowRect(p1);
-                SDL_RenderCopyExF(g->Renderer, g->Arrow, NULL, &playerRect, p1->Angle*180/PI + 90, NULL, SDL_FLIP_NONE);
+            DrawArrow(p1, g, game->BaseHealth);
+        }
+        if(game->State == GAME_PAUSED) {
+            menu = LoadMenu("Menus/libPauseMenu.so", game, g);
+
+            UpdateLoop(menu, g);
+            if(menu->State == MENU_EXITED) game->State = GAME_EXITED;
+
+            if(game->State == GAME_RESET) {
+                RestartGame(game, g);
+                game->State = GAME_RUNNING;
             }
+            DeallocMenu(menu);
+            menu = NULL;
+        }
+        if(game->State == GAME_FINISHED) {
+            SetP1ic(game->Players[0].Config, game->Players[0].Input);
+            menu = LoadMenu("Menus/libWinMenu.so", game, g);
+
+            while(menu->State == MENU_RUNNING) {
+                UpdateMenu(20, menu, wait > 0);
+                DrawMenu(menu, g);
+                wait -= 0.02f;
+            }
+            if(menu->State == MENU_EXITED) game->State = GAME_EXITED;
+            if(game->State == GAME_RESET) {
+                RestartGame(game, g);
+                game->State = GAME_RUNNING;
+            }
+            DeallocMenu(menu);
+            menu = NULL;
         }
         EndDraw(g);
     }
@@ -150,7 +194,7 @@ void InitArrows(Game* game, Graphics* g){
                 .Weapon = CopyWeapon(game->BaseWeapon),
                 //.FireTimer = game->BaseFirerate,
                 .ThrusterTimerTM = THRUSTER_PARTICLE_SPAWNTIME,
-                .Color = RandomColor()
+                .Color = RandomColorR(64, 256)
         };
     }
 }
@@ -225,9 +269,11 @@ bool ProcessHits(Game* game, Bullet* b){
 
             int cParticles = RandomR(1, 8);
             for(int z = 0; z < cParticles; z++){
+                vec2 bpvel = vec2_AddV(RandomVec2A(w->BulletSpeed * 0.01f), vec2_SubV(b->Position, p->Position));
+                if(b->Type == HITSCAN) {bpvel = RandomVec2A(w->BulletSpeed*0.01f);}
                 add_ParticleElement_front(game->Particles, new_ParticleElement( CreateParticle(
                     hitVec,
-                    vec2_AddV(RandomVec2A(w->BulletSpeed * 0.01f), vec2_SubV(b->Position, p->Position)),
+                    bpvel,
                     PARTICLE_BASE_LIFE + RandomFR(-1.0f, 1.0f),
                     p->Color
                 )));
@@ -238,13 +284,13 @@ bool ProcessHits(Game* game, Bullet* b){
                 for(int z = 0; z < cdParticles; z++){
                     add_ParticleElement_front(game->Particles, new_ParticleElement( CreateParticle(
                             p->Position,
-                            RandomVec2A(10),
+                            RandomVec2A(50),
                             PARTICLE_BASE_LIFE + RandomFR(-1.0f, 1.0f),
                             p->Color
                     )));
                 }
             }
-            return true;
+            if(b->Type != HITSCAN)return true;
         }
     }
     return false; 
@@ -256,7 +302,7 @@ void UpdateBullets(Game* game, Graphics* g){
 
     if(p == NULL){return;}
     while(p != NULL && p == game->Bullets->First){
-        if(ProcessHits(game, p->Sauce) || CheckBounds(p->Sauce, g) ){
+        if(ProcessHits(game, p->Sauce) || CheckBounds(p->Sauce, g) || p->Sauce->Lifetime <= 0){
             remove_BulletElement_front(game->Bullets);
             p = game->Bullets->First;
         }
@@ -267,7 +313,7 @@ void UpdateBullets(Game* game, Graphics* g){
         }
     }
     while(p != NULL){
-        if(ProcessHits(game, p->Sauce) || CheckBounds(p->Sauce, g)){
+        if(ProcessHits(game, p->Sauce) || CheckBounds(p->Sauce, g) || p->Sauce->Lifetime <= 0){
             p = p->Next;
             remove_BulletElement_after(oldp);
         }
@@ -287,9 +333,39 @@ void DrawBullets(BulletElement* first, Graphics* g, float delta){
     }
 }
 
+void RestartGame(Game* game, Graphics* gr){
+    for(int i = 0; i<game->PlayerCount; i++){
+        DeloadInputConfig(game->Players[i].Config);
+        free(game->Players[i].Input);
+        free(game->Players[i].Weapon);
+    }
+    free(game->Players);
+    ParticleElement* p = game->Particles->First;
+    while(p != NULL){
+        ParticleElement* op = p;
+        p = p->Next;
+        free(op->Sauce);
+        free(op);
+    }
+
+    while(game->Bullets->First != NULL){
+        remove_BulletElement_front(game->Bullets);
+    }
+
+    game->Players = malloc(sizeof(Arrow) * game->PlayerCount);
+    game->Particles->First = NULL;
+
+    game->Bullets->First = NULL;
+
+    InitArrows(game, gr);
+
+    game->CDelta = 0.1f;
+    game->State = GAME_RUNNING;
+}
+
 void Deallocate(Game* game){
     for(int i = 0; i<game->PlayerCount; i++){
-        free(game->Players[i].Config);
+        DeloadInputConfig(game->Players[i].Config);
         free(game->Players[i].Input);
         free(game->Players[i].Weapon);
     }

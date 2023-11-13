@@ -27,8 +27,9 @@ add_subdirectory(src)
 
 add_subdirectory(Menus)
 
+target_link_libraries(${PROJECT_NAME} Game)
 target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf)
 target_link_libraries(${PROJECT_NAME} m)
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror)
+target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Werror)
 
 

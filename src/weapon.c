@@ -4,7 +4,7 @@
 #include "bullet.h"
 #include "dataStructures/BulletPasta.h"
 
-Weapon* CreateWeapon(ShotType type, float damage, float speed, float accuracy, float frate, int magsize){
+Weapon* CreateWeapon(ShotType type, float damage, float speed, float accuracy, float frate, float rrate, int magsize){
     Weapon* op = malloc(sizeof(Weapon));
     if(type == SHOTTYPE_RANDOM){ type = RandomR(0, BULLETTYPE_LENGTH); }
     op->Type = type;
@@ -12,9 +12,11 @@ Weapon* CreateWeapon(ShotType type, float damage, float speed, float accuracy, f
     op->BulletSpeed = speed;
     op->Accuracy = accuracy;
     op->FireRate = frate;
+    op->ReloadRate = rrate;
     op->MagazineSize = magsize;
     op->Magazine = 0;
     op->FireTimer = 0; 
+    op->ReloadTimer = 0;
 
     return op;
 }
@@ -26,9 +28,11 @@ Weapon* CopyWeapon(Weapon* base){
     op->BulletSpeed = base->BulletSpeed;
     op->Accuracy = base->Accuracy;
     op->FireRate = base->FireRate;
+    op->ReloadRate = base->ReloadRate;
     op->MagazineSize = base->MagazineSize;
     op->Magazine = base->Magazine;
     op->FireTimer = base->FireTimer;
+    op->ReloadTimer = base->ReloadTimer;
     return op;
 }
 
@@ -40,18 +44,21 @@ bool IsEmpty(Weapon* w){
 
 bool Fire(Arrow* a, Game* g){
     if(IsEmpty(a->Weapon)) return false;
+    if(a->Weapon->FireTimer < 0) return false;
 
     add_BulletElement_front(g->Bullets, CreateBulletElement(CreateBullet(g, a)));
     a->Weapon->Magazine--;
     a->Velocity = vec2_SubV(a->Velocity, vec2_MulfV(g->Bullets->First->Sauce->Velocity, 0.001f));
-    a->Weapon->FireTimer = 0; 
+    a->Weapon->FireTimer = -a->Weapon->FireRate; 
     return true;
 }
 
 void UpdateWeapon(Weapon* w, float delta){
     w->FireTimer += delta;
-    while(w->FireTimer > w->FireRate){
-        w->FireTimer -= w->FireRate;
+    w->ReloadTimer += delta;
+    if(w->ReloadRate <= 0.01f) {w->Magazine++; return;}
+    while(w->ReloadTimer > w->ReloadRate){
+        w->ReloadTimer -= w->ReloadRate;
         if(w->Magazine < w->MagazineSize) 
             w->Magazine++;
     }

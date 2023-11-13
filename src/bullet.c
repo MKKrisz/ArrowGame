@@ -1,20 +1,25 @@
 #include <stdlib.h>
 
 #include "bullet.h"
+#include "math/lerp.h"
+#include "math/vector.h"
 #include "../debugmalloc.h"
 
 #define PI 3.1415926f
 
 Bullet* CreateBullet(Game* game, Arrow* arrow){
     Bullet* bullet = (Bullet*)malloc(sizeof(Bullet));
-    bullet->Position = arrow->Position;
-    bullet->Velocity = vec2_MakeAM(arrow->Angle + RandomFR(-arrow->Weapon->Accuracy, arrow->Weapon->Accuracy), game->BaseWeapon->BulletSpeed); 
+    bullet->Position = (vec2){arrow->Position.x, arrow->Position.y};
     bullet->Type = (BulletType)arrow->Weapon->Type;
+    bullet->Velocity = vec2_MakeAM(arrow->Angle + RandomFR(-arrow->Weapon->Accuracy/2, arrow->Weapon->Accuracy/2), game->BaseWeapon->BulletSpeed);
+    if(bullet->Type == HITSCAN) bullet->Velocity = vec2_Normalize(&bullet->Velocity);
     bullet->Owner = arrow;
+    bullet->Lifetime = 1.0f;
     return bullet;
 }
 
 void UpdateBullet(Bullet* b, Game* game){
+    if(b->Type == HITSCAN) b->Lifetime -= game->CDelta * game->BaseAccel / 100;
     if(b->Type == HEATSEEK){        
         for(int i = 0; i<game->PlayerCount; i++){
             if(b->Owner == &game->Players[i]) continue;
@@ -26,7 +31,7 @@ void UpdateBullet(Bullet* b, Game* game){
             b->Velocity = vec2_MulfV(vec2_Normalize(&b->Velocity), game->BaseWeapon->BulletSpeed);
         }
     }
-    b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
+    if(b->Type != HITSCAN)b->Position = vec2_AddV(b->Position, vec2_MulfV(b->Velocity, game->CDelta));
 }
 
 
@@ -47,9 +52,9 @@ vec2 GetHitVec(Arrow* arrow, Bullet* bullet, float delta){
     float d = b*b - 4*a*c;
     if(d<0) return MISS;
 
-    float t1 = (-b - sqrt(d)) / (2*a);
-    if(bullet->Type == HITSCAN && t1 > 0) return HIT(t1);
-    else if(fabs(t1) < delta) return HIT(t1);
+    float t1 = (-b - (float)sqrt(d)) / (2*a);
+    if(t1 < 0) return MISS;
+    if(bullet->Type == HITSCAN || t1 < delta) return HIT(t1);
     return MISS;
 }
 
@@ -68,17 +73,10 @@ bool CheckBounds(Bullet* bullet, Graphics* g){
 
 
 void DrawBullet(Bullet* b, Graphics* g, float delta){
-    SDL_SetRenderDrawColor(g->Renderer, BULLET_COLOR);
+    SDL_SetRenderDrawColor(g->Renderer, Lerp(0, 255, b->Lifetime), 0, 0, Lerp(0, 255, b->Lifetime));
     if(b->Type == HITSCAN){
-        float t = 0;
-        float ang = fmod(vec2_get_Angle(&b->Velocity), 2*PI);
-        if(ang <= PI){
-            t = (g->viewport_height - b->Position.y )/ b->Velocity.y;
-        }
-        if(ang > PI){
-            t =  (b->Position.y )/ b->Velocity.y;
-        }
-        SDL_RenderDrawLine(g->Renderer, b->Owner->Position.x, b->Owner->Position.y, b->Owner->Position.x + (b->Velocity.x*t), b->Owner->Position.y + (b->Velocity.y*t));
+        float length = g->viewport_width + g->viewport_height;
+        SDL_RenderDrawLineF(g->Renderer, b->Position.x, b->Position.y, b->Position.x + (b->Velocity.x * length), b->Position.y + (b->Velocity.y * length));
     }
     else SDL_RenderDrawLineF(g->Renderer, b->Position.x, b->Position.y, b->Position.x + (b->Velocity.x*delta), b->Position.y + (b->Velocity.y*delta));
 }

@@ -24,8 +24,8 @@ void Init(Menu* m, void* data, Graphics* graph){
 
     char* texts[] = {"Config", "Players:", "Acceleration Min:", "Acceleration Max:", "Turn Accel Min:", 
         "Turn Accel Max:", "Friction Min:", "Friction Max:", "HP Min:", "HP Max:", "Weapon Type:", 
-        "Weapon Damage Min:", "Weapon Damage Max:", "Bullet Speed Min:", "Bullet Speed Max:", "Weapon Accuracy Min:", "Weapon Accuracy Max:", 
-        "Fire rate Min:","Fire Rate Max:", "Reload Rate Min:", "Reload Rate Max:", "Magazine Size Min:",
+        "Weapon Damage Min:", "Weapon Damage Max:", "Bullet Speed Min:", "Bullet Speed Max:", "Weapon Spread Min:", "Weapon Spread Max:", 
+        "Fire Delay Min:","Fire Delay Max:", "Reload Delay Min:", "Reload Delay Max:", "Magazine Size Min:",
         "Magazine Size Max:", "Apply", "Back"};
     float defs[] = {0, 
                     gcfg.Values[GCFG_PLAYERCOUNT].min,
@@ -134,12 +134,12 @@ void OffsetAll(Menu* m, int offset){
 void Update(Menu* m){
     if(lastSelId == m->SelectedEntry) return;
     if(m->SelectedEntry % fits == 0 && lastSelId < m->SelectedEntry){
-        OffsetAll(m, gr->viewport_height);
-        coffset += gr->viewport_height;
+        OffsetAll(m, (fits+1)*15);
+        coffset += (fits+1)*15;
     }
     if(m->SelectedEntry % fits == fits-1 && lastSelId > m->SelectedEntry){
-        OffsetAll(m, -gr->viewport_height);
-        coffset -= gr->viewport_height;
+        OffsetAll(m, -(fits+1)*15);
+        coffset -= (fits+1)*15;
     }
     lastSelId = m->SelectedEntry;
 }
@@ -164,6 +164,25 @@ void SetVal(Menu* m, Slider* self, int id, bool mx, bool integer, float t){
     free(vstr);
 }
 
+void SetPCount(Menu* m, Slider* self, float t){
+    float* val = &gcfg.Values[0].min;
+    float diff = t - *val;
+
+    *val += diff * 20 + 0.1;
+    
+    if(*val < 2) {*val = 2;}
+    if(*val > 4) {*val = 4;}
+    
+    self->Value = *val;
+
+    char* vstr = malloc(5*sizeof(char));
+    sprintf(vstr, "%.0f", *val);
+    SetTextString(self->ValueText, vstr, gr);
+    self->ValueText->DrawRect.x = gr->viewport_width - self->ValueText->DrawRect.w;
+    free(vstr);
+}
+
+
 char* wtypes[] = {"Projectile", "Hitscan", "Heat-seeker", "Random"};
 void SetWType(Menu* m, Slider* self, float t){
     float* val = &gcfg.Values[GCFG_WEAPON_TYPE].min;
@@ -180,7 +199,7 @@ void SetWType(Menu* m, Slider* self, float t){
 }
 
 
-void M_PCount(Menu* m, Slider* self, float t)		{SetVal(m, self, 0, false, true, t);}
+void M_PCount(Menu* m, Slider* self, float t)		{SetPCount(m, self, t);}
 void M_Accel_Min(Menu* m, Slider* self, float t)        {SetVal(m, self, 1, false, false, t);}
 void M_Accel_Max(Menu* m, Slider* self, float t)	{SetVal(m, self, 1, true, false, t);}
 void M_Angular_Min(Menu* m, Slider* self, float t)	{SetVal(m, self, 2, false, false, t);}

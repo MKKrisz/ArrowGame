@@ -23,7 +23,8 @@ typedef enum GameState{
     GAME_PAUSED = 3,
     GAME_RESET = 4,
     GAME_FINISHED = 5,
-    GAME_STOPPED = 6
+    GAME_STOPPED = 6,
+    GAME_EXITED = 7,
 } GameState;
 
 // Egy játék konfigurációjának és fontosabb belső változóinak tárolója.
@@ -58,5 +59,7 @@ bool ProcessHits(Game* game, struct Bullet* b);
 
 void UpdateBullets(Game* game, Graphics* g);
 void DrawBullets(struct BulletElement* first, Graphics* g, float delta);
+
+void RestartGame(Game* game, Graphics* gr);
 
 void Deallocate(Game* game);

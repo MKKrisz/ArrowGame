@@ -4,7 +4,7 @@
 #include "game.h"
 #include "graphics/graphics.h"
 
-#define BULLET_COLOR 255, 0, 0, 255
+#define BULLET_COLOR Lerp(255, 0, b->Lifetime/(1000*vec2_get_Length(&b->Velocity))), 0, 0, 255
 
 struct Game;
 struct Arrow;
@@ -21,6 +21,7 @@ typedef struct Bullet {
     vec2 Position;
     vec2 Velocity;
     float Damage;
+    float Lifetime;
     BulletType Type;
     struct Arrow* Owner;
 } Bullet;

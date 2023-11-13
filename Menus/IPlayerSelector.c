@@ -29,7 +29,7 @@ void LoadInputMenu(Menu* m, int playerno){
     UpdateLoop(imenu, gr);
     (*imenu->GetGame)();
     if(imenu->State == MENU_EXITED) m->State = MENU_EXITED;
-    if(imenu->State & MENU_WASUPDATED) m->State = MENU_UPDATE;
+    else if(imenu->State & MENU_WASUPDATED) m->State = MENU_UPDATE;
     DeallocMenu(imenu);
 }
 

@@ -1,5 +1,6 @@
 #include "random.h"
 #include "../../debugmalloc.h"
+#include "../math/lerp.h"
 
 void init_Random(){
     srand(time(NULL));
@@ -18,7 +19,7 @@ float RandomF(){
 }
 
 float RandomFR(float min, float max){
-    return RandomF() * (max-min) + min;
+    return Lerp(min, max, RandomF());
 }
 
 float RandomRange(Range r){

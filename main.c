@@ -21,20 +21,17 @@ int main(void) {
 
     SDL_SetRenderDrawBlendMode(g.Renderer, SDL_BLENDMODE_BLEND);
     Game game;
-    game.State = GAME_INVALID;
+    game.State = GAME_SET;
 
-    Menu* main = LoadMenu("Menus/libMainMenu.so", &game, &g);
-    UpdateLoop(main, &g);
-    if(main->GetGame != NULL) game = (*main->GetGame)();
-
-    // This is a workaround so that I don't need to reposition the menu elements, but when
-    // the game starts, it is the right size.
-    RescaleViewport(&g, g.viewport_scale);
-    
-    GameLoop(&game, &g);
-
-    DeallocMenu(main);
-
+    while(game.State != GAME_EXITED && game.State != GAME_INVALID){
+        LoadP1ic();
+        Menu* main = LoadMenu("Menus/libMainMenu.so", &game, &g);
+        UpdateLoop(main, &g);
+        if(main->GetGame != NULL) game = (*main->GetGame)(); 
+        FreeP1ic();
+        DeallocMenu(main);
+        GameLoop(&game, &g);
+    }
     DestroyGraphics(&g);
     IMG_Quit();
 }

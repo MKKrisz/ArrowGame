@@ -6,17 +6,17 @@ Gcfg gcfg_Defaults(){
     return (Gcfg){
         .Values = {
             {SINGLE, 2},
-            {DOUBLE, 0, 1000},
-            {DOUBLE, 0, 100},
-            {DOUBLE, 0, 10},
-            {DOUBLE, 0, 1000},
+            {DOUBLE, 150, 300},
+            {DOUBLE, 10, 15},
+            {DOUBLE, 0.2f, 0.5f},
+            {DOUBLE, 100, 350},
             {SINGLE, BULLETTYPE_LENGTH},
-            {DOUBLE, 0.1f, 1000},
-            {DOUBLE, 0, 5000},
+            {DOUBLE, 0.1f, 3},
+            {DOUBLE, 10, 1200},
             {DOUBLE, 0, 1.5},
-            {DOUBLE, 0, 5},
-            {DOUBLE, 0, 60},
-            {DOUBLE, 1, 1000}
+            {DOUBLE, 0, 0.5},
+            {DOUBLE, 0, 1},
+            {DOUBLE, 11, 1000}
         }
     };
 }

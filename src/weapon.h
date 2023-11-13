@@ -15,13 +15,15 @@ typedef struct Weapon{
     float BulletSpeed;
     float Accuracy;
     float FireRate;
+    float ReloadRate;
     int MagazineSize;
 
     int Magazine;
     float FireTimer;
+    float ReloadTimer;
 } Weapon;
 
-Weapon* CreateWeapon(ShotType type, float damage, float speed, float accuracy, float frate, int magsize);
+Weapon* CreateWeapon(ShotType type, float damage, float speed, float accuracy, float frate, float rrate, int magsize);
 Weapon* CopyWeapon(Weapon* base);
 void DeallocWeapon(Weapon* w);
 

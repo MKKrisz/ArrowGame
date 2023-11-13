@@ -12,12 +12,12 @@ typedef enum MenuState{
     MENU_INVALID = 0,
     MENU_INIT = 1,
     MENU_RUNNING = 2,
-    MENU_WAITING = 3,
-    MENU_STOPPED = 4,
-    MENU_EXITED = 5,
-    MENU_UPDATE = 6,
-    MENU_FAILED = 7,
-    MENU_WASUPDATED = 8,
+    MENU_WAITING = 4,
+    MENU_STOPPED = 8,
+    MENU_EXITED = 16,
+    MENU_UPDATE = 32,
+    MENU_FAILED = 64,
+    MENU_WASUPDATED = 128,
 } MenuState;
 
 typedef struct Menu{
@@ -34,16 +34,19 @@ typedef struct Menu{
 
     void (*Init)(struct Menu* menu, void* data, Graphics* graph);
     void (*CustomUpdate)(struct Menu* menu);
+    void (*CustomDraw)(struct Menu* menu, Graphics* g);
     Game (*GetGame)();
 } Menu;
 
 void LoadP1ic();
+void SetP1ic(InputConfig* cfg, Input* i);
+void FreeP1ic();
 
 Menu* LoadMenu(const char* path, void* data, Graphics* graph);
 void ReloadMenu(Menu* m, Graphics* graph);
 void InitBasicMenu(Menu* m, char** texts, int count, Graphics* gr);
 void InitSliderMenu(Menu* m, char** texts, int tlen, float* defaults, Graphics* gr);
-uint UpdateMenu(uint delta, void* menu);
+void UpdateMenu(uint delta, void* menu, bool inputDisabled);
 void UpdateLoop(Menu* m, Graphics* g);
 void DrawMenu(Menu* m, Graphics* g);
 void DeallocMenu(Menu* m);

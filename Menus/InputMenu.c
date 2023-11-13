@@ -5,7 +5,7 @@ int playerNo;
 InputConfig* ic;
 char path[30];
 Graphics* gr;
-char* askinput;
+char* askinput = "Press a button...";
 
 void Init(Menu* m, void* data, Graphics* graph){
     playerNo = *(int*)data;
@@ -16,8 +16,6 @@ void Init(Menu* m, void* data, Graphics* graph){
 
     sprintf(title, "Input: Player %1d", playerNo);
     sprintf(path, "Config/player%d.icfg", playerNo-1);
-    askinput = malloc(20*sizeof(char));
-    strcpy(askinput, "Press a button...");
     ic = LoadInputConfig(path);
 
     //Leaving out "Boost", as it is unused in the game
@@ -166,8 +164,8 @@ void M_P(Menu*m, Slider* self, float t){
 
 void Apply(Menu* m){
     SaveInputConfig(path, ic);
+    DeloadInputConfig(ic);
     m->State = MENU_UPDATE;
-    Back(m);
 }
 
 void Back(Menu* m){
@@ -175,8 +173,6 @@ void Back(Menu* m){
 }
 
 Game Return(){
-    SDL_GameControllerClose(ic->Controller);
-    free(ic);
-    free(askinput);
+    DeloadInputConfig(ic);
     return (Game){0};
 }

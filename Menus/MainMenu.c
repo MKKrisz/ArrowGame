@@ -44,21 +44,23 @@ void StartRandomGame(Menu* menu){
                 RandomRange(g.Values[GCFG_WEAPON_SPD]),
                 RandomRange(g.Values[GCFG_WEAPON_ACC]),
                 RandomRange(g.Values[GCFG_WEAPON_FRATE]),
-                RandomRange(g.Values[GCFG_WEAPON_MAGSIZE])
+                RandomRange(g.Values[GCFG_WEAPON_RRATE]),
+                (int)RandomRange(g.Values[GCFG_WEAPON_MAGSIZE])
                 )
     };
-    printf("%u", game.BaseWeapon->Type);
+    //printf("%u", game.BaseWeapon->Type);
     menu->State = MENU_STOPPED;
 }
 
 void StartCustomGame(Menu* menu){
-    return;
-    //TODO: Implement GameConfig.so
-    Menu* cfg = LoadMenu("Menus/GameConfig.so", NULL, graph);
+    Menu* cfg = LoadMenu("Menus/libGConfMenu.so", "Config/custom.gcfg", graph);
     UpdateLoop(cfg, graph);
-    game = cfg->GetGame();
+    if(cfg->State == MENU_EXITED) menu->State = MENU_EXITED;
+    else if(cfg->State == MENU_STOPPED) {
+        game = cfg->GetGame();
+        if(game.State != GAME_INVALID) menu->State = MENU_STOPPED;
+    }
     DeallocMenu(cfg);
-    if(game.PlayerCount > 0) menu->State = false;
 }
 
 void SetOptions(Menu* menu){
@@ -67,8 +69,8 @@ void SetOptions(Menu* menu){
     menu->State = MENU_WAITING;
     UpdateLoop(opts, graph);
     menu->State = MENU_RUNNING;
-    if(opts->State == MENU_EXITED) menu->State = MENU_EXITED;
-    if(opts->State & MENU_WASUPDATED) menu->State = MENU_UPDATE;
+    if(opts->State & MENU_EXITED) menu->State = MENU_EXITED;
+    else if(opts->State & MENU_WASUPDATED) menu->State = MENU_UPDATE;
     DeallocMenu(opts);
 }
 

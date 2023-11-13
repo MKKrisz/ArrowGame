@@ -1,5 +1,6 @@
 #include "arrow.h"
 #include "../debugmalloc.h"
+#include "math/lerp.h"
 
 #define PI 3.1415926f
 
@@ -70,6 +71,18 @@ SDL_FRect get_ArrowRect(Arrow* arrow){
         .w = ARROW_SIZE,
         .h = ARROW_SIZE
     };
+}
+
+void DrawArrow(Arrow* a, Graphics* g, float MaxHealth){
+    float t = 1 - (a->Health / MaxHealth);
+    if(a->Health>0){
+        SDL_SetTextureColorMod(g->Arrow,
+                Lerp(a->Color.r, a->Color.r/2.0, t),
+                Lerp(a->Color.g, a->Color.g/2.0, t),
+                Lerp(a->Color.b, a->Color.b/2.0, t));
+        SDL_FRect playerRect = get_ArrowRect(a);
+        SDL_RenderCopyExF(g->Renderer, g->Arrow, NULL, &playerRect, a->Angle*180/PI + 90, NULL, SDL_FLIP_NONE);
+    }
 }
 
 vec2 get_ThrusterParticleVelocity(Arrow* arrow, Game* game){

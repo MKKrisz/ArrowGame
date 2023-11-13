@@ -5,6 +5,7 @@
 #include "game.h"
 #include "bullet.h"
 #include "weapon.h"
+#include "graphics/graphics.h"
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
@@ -53,5 +54,7 @@ bool CollideArrow(Arrow* a, Arrow* b);
 
 // Előállítja a kirajzoláshoz szükséges téglalapot
 SDL_FRect get_ArrowRect(Arrow* arrow);
+
+void DrawArrow(Arrow* arrow, Graphics* g, float MaxHealth);
 
 vec2 get_ThrusterParticleVelocity(Arrow* arrow, struct Game* game);

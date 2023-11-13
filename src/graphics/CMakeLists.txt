@@ -1,1 +1,1 @@
-target_sources(${PROJECT_NAME} PRIVATE graphics.h graphics.c)
+target_sources(Game PRIVATE graphics.h graphics.c)

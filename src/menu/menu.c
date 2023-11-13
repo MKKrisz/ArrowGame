@@ -6,12 +6,19 @@ Input* p1i;
 
 void LoadP1ic(){
     p1ic = LoadInputConfig("Config/player0.icfg");
+    p1i = malloc(sizeof(Input));
+}
+void SetP1ic(InputConfig* cfg, Input* i){
+    p1ic = cfg;
+    p1i = i;
+}
+void FreeP1ic(){
+    DeloadInputConfig(p1ic);
+    free(p1i);
 }
 
 Menu* LoadMenu(const char* path, void* data, Graphics* graph){
     Menu* op = malloc(sizeof(Menu));
-    LoadP1ic();
-    p1i = malloc(sizeof(Input));
 
     op->State = MENU_INVALID;
     op->WasUpdated = false;
@@ -24,6 +31,7 @@ Menu* LoadMenu(const char* path, void* data, Graphics* graph){
     (*op->Init)(op, data, graph);
 
     op->CustomUpdate = dlsym(op->Handle, "Update");
+    op->CustomDraw = dlsym(op->Handle, "Draw");
     op->GetGame = dlsym(op->Handle, "Return");
 
     return op;
@@ -118,10 +126,10 @@ void InitSliderMenu(Menu* m, char** texts, int tlen, float* defaults, Graphics* 
 }
 
 
-uint UpdateMenuOnEvent(Menu* m, SDL_Event event){
+void UpdateMenuOnEvent(Menu* m, SDL_Event event){
     if(event.type == SDL_QUIT){
         m->State = MENU_EXITED;
-        return 0;
+        return;
     }
     bool keyupevent = false;
     bool controllerevent = false;
@@ -149,7 +157,7 @@ uint UpdateMenuOnEvent(Menu* m, SDL_Event event){
         }
     }
 
-    if((keyupevent && scode == SDL_SCANCODE_RETURN) || scode == SDL_SCANCODE_SPACE || (controllerevent && get_ButtonState(p1i, M_OK))){
+    if((keyupevent && scode == SDL_SCANCODE_RETURN) || (controllerevent && get_ButtonState(p1i, M_OK))){
         HandleEntryInteract(m, &m->Entries[m->SelectedEntry], 0);
     }
     if((keyupevent && scode == SDL_SCANCODE_ESCAPE) || (controllerevent && get_ButtonState(p1i, PAUSE))){
@@ -176,31 +184,18 @@ uint UpdateMenuOnEvent(Menu* m, SDL_Event event){
         }
         HandleEntryInteract(m, &m->Entries[m->SelectedEntry], ival);
     }
-    return 1;
 }
 
 
-uint UpdateMenu(uint delta, void* menu){
+void UpdateMenu(uint delta, void* menu, bool inputDisabled){
     Menu* m = (Menu*)menu;
     SDL_Event event;
-    UpdateButtons(p1ic, p1i);
-    while(m->State == MENU_RUNNING && SDL_PollEvent(&event)){
+    while(!inputDisabled && m->State & MENU_RUNNING && SDL_PollEvent(&event) != 0){
+        UpdateButtons(p1ic, p1i);
         UpdateMenuOnEvent(m, event);
-    }
-    DeloadInputConfig(p1ic);
-    LoadP1ic();
-    if(m->CustomUpdate != NULL) (*m->CustomUpdate)(m);
-    return 1;
-}
 
-void DrawMenu(Menu* m, Graphics* g){
-    if(m->State == MENU_RUNNING){BeginDraw(g);
-    SDL_SetRenderDrawColor(g->Renderer, 0, 0, 0, 0);
-    SDL_RenderClear(g->Renderer);
-    for(int i = 0; i<m->EntryCount; i++){
-        DrawMenuEntry(&m->Entries[i], g, m->SelectedEntry == i);
     }
-    EndDraw(g);}
+    if(m->CustomUpdate != NULL) (*m->CustomUpdate)(m);
 }
 
 /* This function starts an update loop for the current menu.
@@ -215,22 +210,36 @@ void UpdateLoop(Menu* m, Graphics* g){
     while(m->State & MENU_RUNNING && SDL_WaitEvent(&e)){
         UpdateButtons(p1ic, p1i);
         UpdateMenuOnEvent(m, e);
-        if(m->State == MENU_UPDATE) {
-            DeloadInputConfig(p1ic);
+        if(m->State & MENU_UPDATE) {
+            FreeP1ic();
             LoadP1ic();
             ReloadMenu(m, g);
             m->WasUpdated = true;
         }
         if(m->CustomUpdate != NULL) (*m->CustomUpdate)(m);
-        if(m->State == MENU_RUNNING) DrawMenu(m, g);
+        if(m->State & MENU_RUNNING) DrawMenu(m, g);
+        //if(m->State & MENU_FAILED) break;
     }
     if(m->WasUpdated) m->State = m->State | MENU_WASUPDATED;
-    DeloadInputConfig(p1ic);
-    free(p1i);
     //SDL_RemoveTimer(menu);
 }
 
+void DrawMenu(Menu* m, Graphics* g){
+    if(m == NULL) return;
+    if(m->State & MENU_RUNNING){
+        BeginDraw(g);
+        SDL_SetRenderDrawColor(g->Renderer, 0, 0, 0, 0);
+        SDL_RenderClear(g->Renderer);
+        if(m->CustomDraw != NULL)(*m->CustomDraw)(m, g);
+        for(int i = 0; i<m->EntryCount; i++){
+            DrawMenuEntry(&m->Entries[i], g, m->SelectedEntry == i);
+        }
+        EndDraw(g);
+    }
+}
+
 void DeallocMenu(Menu* m){
+    if(m == NULL) return;
     for(int i = 0; i<m->EntryCount; i++){
         DeallocateMenuEntry(&m->Entries[i]);
     }

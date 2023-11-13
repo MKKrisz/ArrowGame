@@ -33,6 +33,7 @@ void set_ButtonInfo(InputConfig* cfg, int id, ButtonInfo button){
 }
 
 void UpdateButton(InputConfig* cfg, Input* input, int id){
+    if(cfg == NULL || input == NULL) return;
     ButtonInfo* btn = get_ButtonInfo(cfg, id);
     switch(btn->Type){
         case KEYBOARD:
@@ -89,7 +90,7 @@ InputConfig* LoadInputConfig(const char* path){
     set_ButtonInfo(cfg, M_LEFT, (ButtonInfo){.Type = KEYBOARD, .Key = SDL_SCANCODE_UNKNOWN});
     set_ButtonInfo(cfg, M_RIGHT,(ButtonInfo){.Type = KEYBOARD, .Key = SDL_SCANCODE_UNKNOWN});
     set_ButtonInfo(cfg, M_OK,   (ButtonInfo){.Type = KEYBOARD, .Key = SDL_SCANCODE_UNKNOWN});
-
+    cfg->Controller = NULL;
     FILE* file = fopen(path, "r");
     if(file == NULL){ file = fopen("Config/default.icfg", "r");}
 
@@ -112,9 +113,9 @@ InputConfig* LoadInputConfig(const char* path){
         set_ButtonInfo(cfg, M_LEFT, (ButtonInfo){.Type = BUTTON, .Button = SDL_CONTROLLER_BUTTON_DPAD_LEFT});
         set_ButtonInfo(cfg, M_RIGHT,(ButtonInfo){.Type = BUTTON, .Button = SDL_CONTROLLER_BUTTON_DPAD_RIGHT});
         set_ButtonInfo(cfg, M_OK,   (ButtonInfo){.Type = BUTTON, .Button = SDL_CONTROLLER_BUTTON_A});
-    }
-    else cfg->Controller = NULL;
+    } 
     //printf("%s", SDL_GetError());
+    fclose(file);
     return cfg;
 }
 
