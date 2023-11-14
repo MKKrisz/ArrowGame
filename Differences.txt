@@ -1,3 +1,0 @@
-1, I don't save a 1 or 0 in the graphics.cfg file, instead I save the SDL_WindowFlags
-2, You can use "Shift" and "Control" as multipliers for slider incrementing
-
