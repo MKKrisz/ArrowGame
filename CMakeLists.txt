@@ -31,8 +31,14 @@ if(NOT EXISTS ${PROJECT_SOURCE_DIR}/SDL_ttf/CMakeLists.txt)
     message(FATAL_ERROR "Updating SDL_ttf failed")
 endif()
 
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/freetype/CMakeLists.txt)
+    message(FATAL_ERROR "Updating SDL_ttf failed")
+endif()
+
+
 add_subdirectory(SDL)
 add_subdirectory(SDL_image)
+add_subdirectory(freetype)
 add_subdirectory(SDL_ttf)
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS})
