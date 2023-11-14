@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.15)
 project(ArrowGame C)
 
 set(CMAKE_C_STANDARD 99)
