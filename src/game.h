@@ -1,14 +1,10 @@
 #pragma once
 
-#include "arrow.h"
+#include <stdbool.h>
+
 #include "dataStructures/ParticlePasta.h"
 #include "particle.h"
-#include "bullet.h"
-#include "arrow.h"
-#include "weapon.h"
 #include "graphics/graphics.h"
-#include "control/input.h"
-#include "control/random.h"
 
 struct BulletPasta;
 struct BulletElement;

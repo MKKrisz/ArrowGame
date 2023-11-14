@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdbool.h>
 #include <SDL2/SDL.h>
+#include <stdbool.h>
 
 #define BASE_SCALING 0.2
 

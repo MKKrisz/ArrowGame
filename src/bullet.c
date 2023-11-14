@@ -1,6 +1,8 @@
-#include <stdlib.h>
-
 #include "bullet.h"
+#include "arrow.h"
+#include "game.h"
+#include "weapon.h"
+#include "control/random.h"
 #include "math/lerp.h"
 #include "math/vector.h"
 #include "../debugmalloc.h"

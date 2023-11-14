@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-
 /* This is a basic implementation of a 2 dimensional vector struct.
  * The struct is defined to have 2 real values as its fields
  * Most functions related to this struct start with vec2_

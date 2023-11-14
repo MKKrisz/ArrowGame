@@ -3,9 +3,12 @@
 
 #include "../debugmalloc.h"
 #include "game.h"
+#include "arrow.h"
+#include "weapon.h"
 #include "bullet.h"
 #include "dataStructures/BulletPasta.h"
 #include "control/input.h"
+#include "control/random.h"
 #include "math/vector.h"
 #include "menu/menu.h"
 

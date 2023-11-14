@@ -1,3 +1,5 @@
+#include <dlfcn.h>
+
 #include "menu.h"
 #include "../../debugmalloc.h"
 

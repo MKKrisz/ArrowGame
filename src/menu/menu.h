@@ -1,6 +1,6 @@
 #pragma once
-#include <dlfcn.h>
 
+#include "../control/input.h"
 #include "menuentry.h"
 #include "../game.h"
 

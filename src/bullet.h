@@ -1,7 +1,8 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "math/vector.h"
-#include "game.h"
 #include "graphics/graphics.h"
 
 #define BULLET_COLOR Lerp(255, 0, b->Lifetime/(1000*vec2_get_Length(&b->Velocity))), 0, 0, 255

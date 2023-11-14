@@ -1,5 +1,6 @@
 #include "WinMenu.h"
 #include "../src/dataStructures/BulletPasta.h"
+#include "../src/arrow.h"
 #include "../debugmalloc.h"
 
 Graphics* gr;

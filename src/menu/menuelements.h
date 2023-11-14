@@ -1,8 +1,5 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include <stdbool.h>
-
 #include "../graphics/graphics.h"
 #include "textrenderer.h"
 #include "menu.h"

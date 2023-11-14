@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <SDL2/SDL.h>
+
 #include "../math/vector.h"
 #include "../gcfg.h"
 

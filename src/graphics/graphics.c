@@ -1,8 +1,8 @@
-#include "graphics.h"
 #include <SDL2/SDL.h>
-#include <assert.h>
 #include <SDL2/SDL_image.h>
+
 #include "../../debugmalloc.h"
+#include "graphics.h"
 
 #define PrintError(x) if(x != 0){ \
     printf("%s at %s:%d\n", SDL_GetError(), __FILE__, __LINE__); \

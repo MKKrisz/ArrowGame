@@ -2,6 +2,8 @@
 #include "weapon.h"
 #include "arrow.h"
 #include "bullet.h"
+#include "game.h"
+#include "control/random.h"
 #include "dataStructures/BulletPasta.h"
 
 Weapon* CreateWeapon(ShotType type, float damage, float speed, float accuracy, float frate, float rrate, int magsize){

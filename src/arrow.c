@@ -1,6 +1,9 @@
 #include "arrow.h"
+#include "game.h"
+#include "weapon.h"
 #include "../debugmalloc.h"
 #include "math/lerp.h"
+#include "control/random.h"
 
 #define PI 3.1415926f
 

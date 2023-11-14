@@ -1,6 +1,7 @@
 #include "GConfMenu.h"
 #include "../debugmalloc.h"
 #include "../src/gcfg.h"
+#include "../src/weapon.h"
 
 Graphics* gr;
 Game game;

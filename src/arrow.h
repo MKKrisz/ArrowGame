@@ -2,9 +2,7 @@
 
 #include "math/vector.h"
 #include "control/input.h"
-#include "game.h"
 #include "bullet.h"
-#include "weapon.h"
 #include "graphics/graphics.h"
 #include <SDL2/SDL.h>
 #include <stdbool.h>

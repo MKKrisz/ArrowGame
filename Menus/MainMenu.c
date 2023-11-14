@@ -1,6 +1,9 @@
 #include "MainMenu.h"
 #include "../debugmalloc.h"
 #include "../src/gcfg.h"
+#include "../src/control/random.h"
+#include "../src/weapon.h"
+#include "../src/bullet.h"
 
 #define PI 3.1415926
 

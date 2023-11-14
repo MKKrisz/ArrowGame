@@ -1,7 +1,5 @@
 #pragma once
 
-#include "game.h"
-
 struct Game;
 struct Arrow; 
 

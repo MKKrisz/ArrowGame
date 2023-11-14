@@ -5,6 +5,7 @@
 
 #include "debugmalloc.h"
 #include "src/menu/menu.h"
+#include "src/control/random.h"
 #include "src/game.h"
 #include "src/graphics/graphics.h"
 
