@@ -1,5 +1,9 @@
 #include <stdbool.h>
+#ifdef VENDORED
+#include <SDL.h>
+#else
 #include <SDL2/SDL.h>
+#endif
 
 #include "../debugmalloc.h"
 #include "game.h"

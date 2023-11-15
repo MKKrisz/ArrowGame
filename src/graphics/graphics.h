@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef VENDORED
+#include <SDL.h>
+#else
 #include <SDL2/SDL.h>
+#endif
 #include <stdbool.h>
 
 #define BASE_SCALING 0.2

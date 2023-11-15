@@ -1,7 +1,12 @@
 #pragma once
 
+#ifdef VENDORED
+#include <SDL.h>
+#include <SDL_ttf.h>
+#else
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#endif
 #include "../graphics/graphics.h"
 
 #define BASE_FONT_SIZE 12

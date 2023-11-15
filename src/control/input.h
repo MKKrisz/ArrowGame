@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef VENDORED
+#include <SDL.h>
+#else
 #include <SDL2/SDL.h>
+#endif
 #include <stdbool.h>
 
 #define CONTROLLER_DEADZONE 5000.0f

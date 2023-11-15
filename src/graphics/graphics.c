@@ -1,5 +1,8 @@
-#include <SDL2/SDL.h>
+#ifdef VENDORED
+#include <SDL_image.h>
+#else
 #include <SDL2/SDL_image.h>
+#endif
 
 #include "../../debugmalloc.h"
 #include "graphics.h"
