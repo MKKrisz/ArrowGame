@@ -8,38 +8,21 @@ set(RESOURCES Assets/Arrow.png Assets/font.otf Config/default.icfg)
 #find_package(SDL2_image REQUIRED)
 #find_package(SDL2_ttf REQUIRED)
 
-find_package(Git QUIET)
-if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    message("Updating submodules...")
-    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                    RESULT_VARIABLE UPDATE_RES)
-    if(NOT UPDATE_RES EQUAL "0")
-        message(FATAL_ERROR "Updating failed. Error code: ${UPDATE_RES}")
-    endif()
+option(SDL_VENDORED "Use vendored libraries" ON)
+
+if(SDL_VENDORED)
+    set(SDL2_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/SDL2/include")
+    set(SDL2_IMAGE_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/SDL2_image/include")
+    set(SDL2_TTF_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/SDL2_ttf/include")
+    set(SDL2_LIBRARIES "${CMAKE_SOURCE_DIR}/SDL2/lib/x64/SDL2.lib")
+    set(SDL2_IMAGE_LIBRARIES "${CMAKE_SOURCE_DIR}/SDL2_image/lib/x64/SDL2_image.lib")
+    set(SDL2_TTF_LIBRARIES "${CMAKE_SOURCE_DIR}/SDL2_ttf/lib/x64/SDL2_ttf.lib")
+else()
+    find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
+    find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
+    find_package(SDL2_image REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
 endif()
-
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/SDL/CMakeLists.txt)
-    message(FATAL_ERROR "Updating SDL failed")
-endif()
-
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/SDL_image/CMakeLists.txt)
-    message(FATAL_ERROR "Updating SDL_image failed")
-endif()
-
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/SDL_ttf/CMakeLists.txt)
-    message(FATAL_ERROR "Updating SDL_ttf failed")
-endif()
-
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/freetype/CMakeLists.txt)
-    message(FATAL_ERROR "Updating SDL_ttf failed")
-endif()
-
-
-add_subdirectory(SDL)
-add_subdirectory(SDL_image)
-add_subdirectory(freetype)
-add_subdirectory(SDL_ttf)
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS})
 
@@ -63,7 +46,14 @@ add_subdirectory(src)
 add_subdirectory(Menus)
 
 target_link_libraries(${PROJECT_NAME} Game)
-target_link_libraries(${PROJECT_NAME} SDL2 SDL2_image SDL2_ttf)
+if(TARGET SDL2::SDL2main)
+    target_link_libraries(${PROJECT_NAME} SDL2::SDL2main)
+endif()
+if(SDL_VENDORED)
+    target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES})
+else()
+    target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf)
+endif()
 target_link_libraries(${PROJECT_NAME} m)
 target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Werror)
 
