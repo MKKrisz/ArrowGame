@@ -4,6 +4,7 @@
 #include "graphics/graphics.h"
 #ifdef VENDORED
 #include <SDL.h>
+typedef unsigned int uint;
 #else
 #include <SDL2/SDL.h>
 #endif

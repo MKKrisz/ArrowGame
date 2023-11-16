@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdbool.h>
+
+#ifdef VENDORED
+#include <SDL.h>
+#include <SDL_image.h>
+typedef unsigned int uint;
+#else
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#endif
 
 #include "debugmalloc.h"
 #include "src/menu/menu.h"

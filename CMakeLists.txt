@@ -8,7 +8,7 @@ set(RESOURCES Assets/Arrow.png Assets/font.otf Config/default.icfg)
 #find_package(SDL2_image REQUIRED)
 #find_package(SDL2_ttf REQUIRED)
 
-option(SDL_VENDORED "Use vendored libraries" ON)
+option(SDL_VENDORED "Use vendored libraries" OFF)
 
 if(SDL_VENDORED)
     set(SDL2_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/SDL2/include")
