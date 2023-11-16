@@ -1,11 +1,6 @@
 #pragma once
 
-#ifdef VENDORED
-#include <SDL.h>
-typedef unsigned int uint;
-#else
 #include <SDL2/SDL.h>
-#endif
 
 #include "menuelements.h"
 #include "menu.h"

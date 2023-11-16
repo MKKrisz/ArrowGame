@@ -1,9 +1,4 @@
-#ifdef VENDORED
-#include <SDL_image.h>
-typedef unsigned int uint;
-#else
 #include <SDL2/SDL_image.h>
-#endif
 
 #include "../../debugmalloc.h"
 #include "graphics.h"
